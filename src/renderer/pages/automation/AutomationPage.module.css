@@ -1,0 +1,22 @@
+/* ── 自动化页面样式 ── */
+
+.pageHeader {
+   margin-bottom: 4px;
+}
+
+.pageTitle {
+   margin: 0 !important;
+   font-size: 20px !important;
+   font-weight: 600 !important;
+}
+
+.pageSubtitle {
+   font-size: 13px;
+   color: var(--ant-color-text-secondary, #666);
+}
+
+.allSectionsView {
+   display: flex;
+   flex-direction: column;
+   gap: 4px;
+}

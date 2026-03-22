@@ -1,0 +1,412 @@
+/* ── ClawUI Skills Page ── */
+/* Aesthetic: Industrial Control Panel — monospace accents, subtle glow, status dots */
+
+/* ── Page header ── */
+
+.pageHeader {
+   display: flex;
+   align-items: flex-start;
+   justify-content: space-between;
+   gap: 16px;
+   padding-bottom: 16px;
+   border-bottom: 1px solid var(--ant-color-border-secondary, rgba(255, 255, 255, 0.06));
+}
+
+.headerLeft {
+   display: flex;
+   flex-direction: column;
+   gap: 4px;
+}
+
+.pageTitle {
+   font-size: 18px;
+   font-weight: 700;
+   color: var(--ant-color-text, #e8e8e8);
+   letter-spacing: -0.3px;
+   line-height: 1.3;
+   display: flex;
+   align-items: center;
+   gap: 10px;
+}
+
+.pageTitleAccent {
+   display: inline-block;
+   width: 3px;
+   height: 18px;
+   border-radius: 2px;
+   background: var(--ant-color-primary, #1677ff);
+   flex-shrink: 0;
+}
+
+.pageSubtitle {
+   font-size: 12px;
+   color: var(--ant-color-text-tertiary, #666);
+   letter-spacing: 0.2px;
+}
+
+.headerActions {
+   display: flex;
+   align-items: center;
+   gap: 8px;
+   flex-shrink: 0;
+}
+
+/* ── Stats overview row ── */
+
+.statsRow {
+   display: grid;
+   grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+   gap: 8px;
+   margin-top: 16px;
+}
+
+.statBlock {
+   position: relative;
+   display: flex;
+   flex-direction: column;
+   gap: 6px;
+   padding: 12px 14px 12px 18px;
+   border-radius: 8px;
+   border: 1px solid var(--ant-color-border-secondary, rgba(255, 255, 255, 0.06));
+   background: var(--ant-color-fill-quaternary, rgba(255, 255, 255, 0.02));
+   overflow: hidden;
+   transition: border-color 0.2s, background 0.2s;
+}
+
+.statBlock::before {
+   content: '';
+   position: absolute;
+   top: 0;
+   left: 0;
+   width: 3px;
+   height: 100%;
+   background: var(--stat-accent, var(--ant-color-primary, #1677ff));
+   border-radius: 3px 0 0 3px;
+}
+
+.statBlock:hover {
+   border-color: color-mix(in srgb, var(--stat-accent, var(--ant-color-primary, #1677ff)) 25%, transparent);
+   background: color-mix(in srgb, var(--stat-accent, var(--ant-color-primary, #1677ff)) 3%, transparent);
+}
+
+.statTotal { --stat-accent: var(--ant-color-primary, #1677ff); }
+.statActive { --stat-accent: #52c41a; }
+.statDisabled { --stat-accent: #faad14; }
+.statBlocked { --stat-accent: #ff4d4f; }
+
+.statLabel {
+   font-size: 11px;
+   font-weight: 500;
+   color: var(--ant-color-text-tertiary, #888);
+   letter-spacing: 0.3px;
+}
+
+.statValueRow {
+   display: flex;
+   align-items: baseline;
+   gap: 8px;
+}
+
+.statValue {
+   font-size: 22px;
+   font-weight: 700;
+   font-family: 'SF Mono', 'Menlo', 'Monaco', 'Cascadia Code', monospace;
+   color: var(--ant-color-text, #e8e8e8);
+   line-height: 1.2;
+}
+
+.statDetail {
+   font-size: 12px;
+   color: var(--ant-color-text-quaternary, #555);
+}
+
+/* ── Filter bar ── */
+
+.filterBar {
+   display: flex;
+   align-items: center;
+   gap: 10px;
+   flex-wrap: wrap;
+   margin-top: 16px;
+   padding: 10px 0;
+   border-bottom: 1px solid var(--ant-color-border-secondary, rgba(255, 255, 255, 0.06));
+}
+
+.filterSearch {
+   flex: 1;
+   min-width: 180px;
+   max-width: 320px;
+}
+
+.shownCount {
+   font-family: 'SF Mono', 'Menlo', 'Monaco', monospace;
+   font-size: 12px;
+   color: var(--ant-color-text-tertiary, #666);
+   padding: 3px 10px;
+   border-radius: 4px;
+   background: var(--ant-color-fill-quaternary, rgba(255, 255, 255, 0.02));
+   border: 1px solid var(--ant-color-border-secondary, rgba(255, 255, 255, 0.06));
+   white-space: nowrap;
+}
+
+/* ── Groups / Collapse ── */
+
+.collapseWrapper {
+   width: 100%;
+   margin-top: 16px;
+}
+
+.collapseWrapper :global(.ant-collapse-header-text) {
+   flex: 1;
+}
+
+.groupHeader {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   width: 100%;
+}
+
+.groupLabel {
+   font-size: 13px;
+   font-weight: 600;
+   color: var(--ant-color-text, #e8e8e8);
+   letter-spacing: 0.1px;
+}
+
+.groupCount {
+   font-family: 'SF Mono', 'Menlo', 'Monaco', monospace;
+   font-size: 11px;
+   font-weight: 600;
+   color: var(--ant-color-text-quaternary, #555);
+   padding: 1px 8px;
+   border-radius: 10px;
+   background: var(--ant-color-fill-quaternary, rgba(255, 255, 255, 0.04));
+   border: 1px solid var(--ant-color-border-secondary, rgba(255, 255, 255, 0.06));
+   margin-left: 10px;
+}
+
+/* ── Skill cards ── */
+
+.skillItem {
+   display: flex;
+   align-items: flex-start;
+   gap: 16px;
+   padding: 14px 16px;
+   margin: 6px 0;
+   border-radius: 8px;
+   border: 1px solid var(--ant-color-border-secondary, rgba(255, 255, 255, 0.06));
+   background: var(--ant-color-bg-container, #141414);
+   transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+}
+
+.skillItem:first-child {
+   margin-top: 0;
+}
+
+.skillItem:hover {
+   border-color: color-mix(in srgb, var(--ant-color-primary, #1677ff) 30%, transparent);
+   background: color-mix(in srgb, var(--ant-color-primary, #1677ff) 2%, var(--ant-color-bg-container, #141414));
+   box-shadow: 0 0 0 1px color-mix(in srgb, var(--ant-color-primary, #1677ff) 8%, transparent);
+}
+
+/* Status indicator dot */
+.skillStatusDot {
+   flex-shrink: 0;
+   width: 8px;
+   height: 8px;
+   border-radius: 50%;
+   margin-top: 6px;
+   transition: box-shadow 0.2s;
+}
+
+.skillStatusDot[data-status='active'] {
+   background: #52c41a;
+   box-shadow: 0 0 6px rgba(82, 196, 26, 0.4);
+}
+
+.skillStatusDot[data-status='blocked'] {
+   background: #ff4d4f;
+   box-shadow: 0 0 6px rgba(255, 77, 79, 0.3);
+}
+
+.skillStatusDot[data-status='disabled'] {
+   background: #faad14;
+   box-shadow: 0 0 6px rgba(250, 173, 20, 0.3);
+}
+
+.skillStatusDot[data-status='inactive'] {
+   background: var(--ant-color-text-quaternary, #444);
+}
+
+/* Skill main content */
+.skillMain {
+   flex: 1;
+   min-width: 0;
+   display: flex;
+   flex-direction: column;
+   gap: 6px;
+}
+
+.skillNameRow {
+   display: flex;
+   align-items: center;
+   gap: 8px;
+}
+
+.skillEmoji {
+   font-size: 16px;
+   line-height: 1;
+   flex-shrink: 0;
+}
+
+.skillTitle {
+   font-size: 14px;
+   font-weight: 600;
+   color: var(--ant-color-text, #e8e8e8);
+   line-height: 1.4;
+   word-break: break-word;
+}
+
+.skillDesc {
+   font-size: 12px;
+   color: var(--ant-color-text-secondary, #999);
+   line-height: 1.5;
+   display: -webkit-box;
+   -webkit-line-clamp: 2;
+   -webkit-box-orient: vertical;
+   overflow: hidden;
+}
+
+.chipRow {
+   display: flex;
+   gap: 4px;
+   flex-wrap: wrap;
+   margin-top: 2px;
+}
+
+.chip {
+   display: inline-flex;
+   align-items: center;
+   gap: 3px;
+   font-size: 10px;
+   font-weight: 500;
+   font-family: 'SF Mono', 'Menlo', 'Monaco', monospace;
+   letter-spacing: 0.2px;
+   padding: 1px 7px;
+   border-radius: 3px;
+   background: var(--ant-color-fill-quaternary, rgba(255, 255, 255, 0.04));
+   border: 1px solid var(--ant-color-border-secondary, rgba(255, 255, 255, 0.06));
+   color: var(--ant-color-text-secondary, #888);
+   line-height: 18px;
+}
+
+.chipSource {
+   composes: chip;
+   color: color-mix(in srgb, var(--ant-color-primary, #1677ff) 80%, white);
+   border-color: color-mix(in srgb, var(--ant-color-primary, #1677ff) 20%, transparent);
+   background: color-mix(in srgb, var(--ant-color-primary, #1677ff) 6%, transparent);
+}
+
+.chipBuiltin {
+   composes: chip;
+   color: #b37feb;
+   border-color: rgba(179, 127, 235, 0.2);
+   background: rgba(179, 127, 235, 0.06);
+}
+
+.chipEligible {
+   composes: chip;
+   color: #52c41a;
+   border-color: rgba(82, 196, 26, 0.2);
+   background: rgba(82, 196, 26, 0.06);
+}
+
+.chipBlocked {
+   composes: chip;
+   color: #ff4d4f;
+   border-color: rgba(255, 77, 79, 0.2);
+   background: rgba(255, 77, 79, 0.06);
+}
+
+.chipDisabled {
+   composes: chip;
+   color: #faad14;
+   border-color: rgba(250, 173, 20, 0.2);
+   background: rgba(250, 173, 20, 0.06);
+}
+
+.skillHint {
+   font-size: 11px;
+   font-family: 'SF Mono', 'Menlo', 'Monaco', monospace;
+   color: var(--ant-color-text-quaternary, #555);
+   line-height: 1.5;
+   padding: 4px 8px;
+   border-radius: 4px;
+   background: var(--ant-color-fill-quaternary, rgba(255, 255, 255, 0.02));
+}
+
+/* ── Right: actions column ── */
+
+.skillMeta {
+   flex-shrink: 0;
+   display: flex;
+   flex-direction: column;
+   align-items: flex-end;
+   gap: 8px;
+   min-width: 90px;
+}
+
+.skillActions {
+   display: flex;
+   gap: 6px;
+   flex-wrap: wrap;
+   justify-content: flex-end;
+}
+
+.skillMessage {
+   font-size: 11px;
+   font-family: 'SF Mono', 'Menlo', 'Monaco', monospace;
+   max-width: 200px;
+   text-align: right;
+   line-height: 1.4;
+}
+
+/* ── API Key section ── */
+
+.apiKeySection {
+   display: flex;
+   flex-direction: column;
+   gap: 6px;
+   margin-top: 4px;
+   min-width: 200px;
+   max-width: 280px;
+   padding: 8px 10px;
+   border-radius: 6px;
+   border: 1px solid var(--ant-color-border-secondary, rgba(255, 255, 255, 0.06));
+   background: var(--ant-color-fill-quaternary, rgba(255, 255, 255, 0.02));
+}
+
+.apiKeyLabel {
+   font-size: 10px;
+   font-weight: 500;
+   color: var(--ant-color-text-tertiary, #666);
+   text-transform: uppercase;
+   letter-spacing: 0.4px;
+}
+
+/* ── Empty / loading states ── */
+
+.emptyContainer {
+   margin-top: 48px;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   gap: 12px;
+}
+
+/* ── Content area ── */
+
+.contentArea {
+   margin-top: 16px;
+}

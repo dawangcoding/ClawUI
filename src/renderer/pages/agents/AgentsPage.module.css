@@ -1,0 +1,1588 @@
+/* ── Agent 页面样式 ── */
+
+/* 工具栏 */
+.toolbar {
+   display: flex;
+   align-items: center;
+   gap: 12px;
+   flex-wrap: wrap;
+   margin-bottom: 16px;
+}
+
+.toolbarLabel {
+   font-size: 12px;
+   font-weight: 600;
+   color: var(--ant-color-text-secondary, #999);
+   text-transform: uppercase;
+   letter-spacing: 0.5px;
+   flex-shrink: 0;
+}
+
+.toolbarSelect {
+   flex: 1;
+   max-width: 280px;
+   min-width: 160px;
+}
+
+.toolbarActions {
+   display: flex;
+   align-items: center;
+   gap: 6px;
+   margin-left: auto;
+}
+
+.saveBtnGroup {
+   display: flex;
+   gap: 6px;
+   align-items: center;
+}
+
+/* 面板容器 */
+.panelContainer {
+   min-height: 200px;
+}
+
+/* ── AgentContextCard (增强版) ── */
+.contextCard {
+   position: relative;
+   display: flex;
+   align-items: center;
+   gap: 16px;
+   padding: 16px 20px;
+   border-radius: 10px;
+   background: var(--ant-color-bg-container, #fff);
+   border: 1px solid var(--ant-color-border-secondary, #f0f0f0);
+   margin-bottom: 16px;
+   overflow: hidden;
+}
+
+.contextCard::before {
+   content: '';
+   position: absolute;
+   top: 0;
+   left: 0;
+   width: 3px;
+   height: 100%;
+   background: var(--ant-color-primary, #1677ff);
+   border-radius: 3px 0 0 3px;
+}
+
+.contextAvatar {
+   flex-shrink: 0;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   width: 48px;
+   height: 48px;
+   border-radius: 12px;
+   font-size: 24px;
+   background: linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--ant-color-primary, #1677ff) 12%, transparent),
+      color-mix(in srgb, var(--ant-color-primary, #1677ff) 4%, transparent)
+   );
+   border: 1px solid color-mix(in srgb, var(--ant-color-primary, #1677ff) 18%, transparent);
+}
+
+.contextInfo {
+   flex: 1;
+   min-width: 0;
+}
+
+.contextName {
+   font-size: 15px;
+   font-weight: 600;
+   color: var(--ant-color-text, #333);
+   line-height: 1.4;
+   display: flex;
+   align-items: center;
+}
+
+.contextMeta {
+   display: flex;
+   gap: 16px;
+   flex-wrap: wrap;
+   margin-top: 4px;
+}
+
+.contextMetaItem {
+   font-size: 12px;
+   color: var(--ant-color-text-tertiary, #888);
+   display: inline-flex;
+   align-items: center;
+   gap: 5px;
+}
+
+.contextMetaIcon {
+   font-size: 12px;
+   color: var(--ant-color-text-quaternary, #666);
+   flex-shrink: 0;
+}
+
+/* ── Overview 统计网格 ── */
+.overviewGrid {
+   display: grid;
+   grid-template-columns: repeat(4, 1fr);
+   gap: 10px;
+   margin-bottom: 20px;
+}
+
+@media (max-width: 720px) {
+   .overviewGrid {
+      grid-template-columns: repeat(2, 1fr);
+   }
+}
+
+.kvItem {
+   display: flex;
+   flex-direction: column;
+   gap: 6px;
+   padding: 12px 14px;
+   border-radius: 8px;
+   border: 1px solid var(--ant-color-border-secondary, #f0f0f0);
+   background: var(--ant-color-bg-container, #fff);
+   transition:
+      border-color 0.2s,
+      background 0.2s;
+}
+
+.kvItemClickable {
+   composes: kvItem;
+   cursor: pointer;
+}
+
+.kvItemClickable:hover {
+   border-color: color-mix(in srgb, var(--ant-color-primary, #1677ff) 40%, transparent);
+   background: color-mix(
+      in srgb,
+      var(--ant-color-primary, #1677ff) 3%,
+      var(--ant-color-bg-container, #fff)
+   );
+}
+
+.kvHeader {
+   display: flex;
+   align-items: center;
+   gap: 6px;
+}
+
+.kvIcon {
+   font-size: 13px;
+   color: var(--ant-color-text-quaternary, #666);
+   flex-shrink: 0;
+}
+
+.kvLabel {
+   font-size: 11px;
+   font-weight: 500;
+   color: var(--ant-color-text-tertiary, #888);
+   letter-spacing: 0.2px;
+}
+
+.kvValue {
+   font-size: 13px;
+   color: var(--ant-color-text, #333);
+   word-break: break-all;
+   line-height: 1.4;
+}
+
+.kvValueMono {
+   composes: kvValue;
+   font-family: 'SF Mono', 'Menlo', 'Monaco', monospace;
+   font-size: 12px;
+}
+
+.kvLink {
+   font-family: 'SF Mono', 'Menlo', 'Monaco', monospace;
+   font-size: 12px;
+   color: var(--ant-color-primary, #1677ff);
+   word-break: break-all;
+   line-height: 1.4;
+   cursor: pointer;
+   background: none;
+   border: none;
+   padding: 0;
+   text-align: left;
+}
+
+.kvLink:hover {
+   text-decoration: underline;
+}
+
+/* ── 配置区块 (模型 / 工具) ── */
+.configSection {
+   margin-top: 16px;
+   padding: 16px;
+   border-radius: 8px;
+   border: 1px solid var(--ant-color-border-secondary, #f0f0f0);
+   background: var(--ant-color-bg-container, #fff);
+}
+
+.configSectionHeader {
+   display: flex;
+   align-items: center;
+   gap: 8px;
+   margin-bottom: 14px;
+}
+
+.configSectionIcon {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   width: 28px;
+   height: 28px;
+   border-radius: 6px;
+   font-size: 14px;
+   color: var(--ant-color-primary, #1677ff);
+   background: color-mix(in srgb, var(--ant-color-primary, #1677ff) 8%, transparent);
+   flex-shrink: 0;
+}
+
+.configSectionTitle {
+   font-size: 13px;
+   font-weight: 600;
+   color: var(--ant-color-text, #333);
+}
+
+.configFields {
+   display: grid;
+   gap: 12px;
+   max-width: 520px;
+}
+
+.configFieldRow {
+   display: flex;
+   flex-direction: column;
+   gap: 5px;
+}
+
+.configFieldLabel {
+   font-size: 12px;
+   font-weight: 500;
+   color: var(--ant-color-text-secondary, #888);
+}
+
+/* ── 保留旧类名兼容 ── */
+.modelSection {
+   composes: configSection;
+}
+
+.modelSectionTitle {
+   font-size: 13px;
+   font-weight: 600;
+   color: var(--ant-color-text, #333);
+   margin-bottom: 12px;
+}
+
+.modelFields {
+   composes: configFields;
+}
+
+.modelFieldRow {
+   composes: configFieldRow;
+}
+
+.modelFieldLabel {
+   composes: configFieldLabel;
+}
+
+.modelActions {
+   display: flex;
+   gap: 8px;
+   flex-wrap: wrap;
+   margin-top: 16px;
+}
+
+/* 芯片输入 (fallbacks) */
+.chipInput {
+   display: flex;
+   flex-wrap: wrap;
+   gap: 6px;
+   align-items: center;
+   padding: 4px 8px;
+   border: 1px solid var(--ant-color-border, #d9d9d9);
+   border-radius: 6px;
+   min-height: 32px;
+   cursor: text;
+   transition:
+      border-color 0.2s,
+      box-shadow 0.2s;
+}
+
+.chipInput:focus-within {
+   border-color: var(--ant-color-primary, #1677ff);
+   box-shadow: 0 0 0 2px color-mix(in srgb, var(--ant-color-primary, #1677ff) 10%, transparent);
+}
+
+.chip {
+   display: inline-flex;
+   align-items: center;
+   gap: 4px;
+   padding: 2px 8px;
+   background: var(--ant-color-fill-secondary, #f5f5f5);
+   border-radius: 4px;
+   font-size: 12px;
+   line-height: 20px;
+   font-family: 'SF Mono', 'Menlo', 'Monaco', monospace;
+}
+
+.chipClose {
+   display: inline-flex;
+   align-items: center;
+   justify-content: center;
+   width: 16px;
+   height: 16px;
+   border: none;
+   background: none;
+   cursor: pointer;
+   font-size: 10px;
+   color: var(--ant-color-text-secondary, #999);
+   border-radius: 2px;
+   padding: 0;
+   transition:
+      background 0.15s,
+      color 0.15s;
+}
+
+.chipClose:hover {
+   background: var(--ant-color-fill-tertiary, #e8e8e8);
+   color: var(--ant-color-text, #333);
+}
+
+.chipInputField {
+   flex: 1;
+   min-width: 100px;
+   border: none;
+   outline: none;
+   font-size: 12px;
+   background: transparent;
+   line-height: 24px;
+   color: var(--ant-color-text, #333);
+}
+
+/* Files 面板 */
+.filesHeaderCard {
+   display: flex;
+   align-items: flex-start;
+   justify-content: space-between;
+   gap: 12px;
+   padding: 16px;
+   border: 1px solid var(--ant-color-border-secondary, #f0f0f0);
+   border-radius: 8px;
+   margin-bottom: 16px;
+}
+
+.filesHeaderInfo {
+   display: flex;
+   flex-direction: column;
+   gap: 4px;
+}
+
+.filesHeaderTitle {
+   font-size: 14px;
+   font-weight: 600;
+   color: var(--ant-color-text, #333);
+}
+
+.filesHeaderSub {
+   font-size: 12px;
+   color: var(--ant-color-text-secondary, #999);
+}
+
+.filesWorkspace {
+   font-size: 12px;
+   font-family: 'SF Mono', 'Menlo', 'Monaco', monospace;
+   color: var(--ant-color-text-tertiary, #bbb);
+   margin-top: 4px;
+}
+
+.filesLayout {
+   display: flex;
+   gap: 16px;
+   min-height: 400px;
+}
+
+.filesList {
+   width: 200px;
+   flex-shrink: 0;
+   overflow-y: auto;
+   border-right: 1px solid var(--ant-color-border-secondary, #f0f0f0);
+   padding-right: 12px;
+   display: flex;
+   flex-direction: column;
+   gap: 4px;
+}
+
+.fileItem {
+   display: flex;
+   align-items: center;
+   gap: 8px;
+   padding: 8px;
+   border-radius: 6px;
+   cursor: pointer;
+   color: var(--ant-color-text, #333);
+   transition: background 0.15s;
+}
+
+.fileItem:hover {
+   background: var(--ant-color-fill-secondary, #f5f5f5);
+}
+
+.fileItemActive {
+   composes: fileItem;
+   background: var(--ant-color-primary-bg, #e6f4ff);
+   border: 1px solid var(--ant-color-primary-border, #91caff);
+}
+
+.fileItemInfo {
+   flex: 1;
+   min-width: 0;
+   display: flex;
+   flex-direction: column;
+   gap: 2px;
+}
+
+.fileItemName {
+   font-size: 13px;
+   font-family: 'SF Mono', 'Menlo', 'Monaco', monospace;
+   overflow: hidden;
+   text-overflow: ellipsis;
+   white-space: nowrap;
+}
+
+.fileItemMeta {
+   font-size: 11px;
+   color: var(--ant-color-text-tertiary, #bbb);
+}
+
+.fileItemMissing {
+   opacity: 0.5;
+   font-style: italic;
+}
+
+.filesEditor {
+   flex: 1;
+   display: flex;
+   flex-direction: column;
+   gap: 8px;
+   min-width: 0;
+}
+
+.filesEditorToolbar {
+   display: flex;
+   align-items: flex-start;
+   justify-content: space-between;
+   gap: 8px;
+}
+
+.filesEditorTitleGroup {
+   display: flex;
+   flex-direction: column;
+   gap: 2px;
+   min-width: 0;
+}
+
+.filesEditorTitle {
+   font-size: 13px;
+   font-weight: 600;
+   font-family: 'SF Mono', 'Menlo', 'Monaco', monospace;
+}
+
+.filesEditorPath {
+   font-size: 11px;
+   font-family: 'SF Mono', 'Menlo', 'Monaco', monospace;
+   color: var(--ant-color-text-tertiary, #bbb);
+   overflow: hidden;
+   text-overflow: ellipsis;
+   white-space: nowrap;
+}
+
+.filesContentLabel {
+   font-size: 12px;
+   font-weight: 500;
+   color: var(--ant-color-text-secondary, #999);
+}
+
+.filesTextarea {
+   flex: 1;
+   min-height: 300px;
+   font-family: 'SF Mono', 'Menlo', 'Monaco', monospace;
+   font-size: 12px;
+   line-height: 1.6;
+   border: 1px solid var(--ant-color-border, #d9d9d9);
+   border-radius: 6px;
+   padding: 12px;
+   resize: vertical;
+   outline: none;
+   background: var(--ant-color-bg-container, #fff);
+   color: var(--ant-color-text, #333);
+}
+
+.filesTextarea:focus {
+   border-color: var(--ant-color-primary, #1677ff);
+   box-shadow: 0 0 0 2px rgba(22, 119, 255, 0.1);
+}
+
+/* ── Tools Panel — Industrial Control Aesthetic ── */
+/* Cohesive with SkillsPage: monospace accents, status dots, stat blocks, subtle glow */
+
+@keyframes tpSectionIn {
+   from {
+      opacity: 0;
+      transform: translateY(6px);
+   }
+   to {
+      opacity: 1;
+      transform: translateY(0);
+   }
+}
+
+.tpRoot {
+   display: flex;
+   flex-direction: column;
+   gap: 0;
+}
+
+/* ── Header ── */
+
+.tpHeader {
+   display: flex;
+   align-items: flex-start;
+   justify-content: space-between;
+   gap: 16px;
+   padding-bottom: 16px;
+   border-bottom: 1px solid var(--ant-color-border-secondary, rgba(255, 255, 255, 0.06));
+   flex-wrap: wrap;
+}
+
+.tpHeaderLeft {
+   display: flex;
+   flex-direction: column;
+   gap: 4px;
+}
+
+.tpTitle {
+   font-size: 18px;
+   font-weight: 700;
+   color: var(--ant-color-text, #e8e8e8);
+   letter-spacing: -0.3px;
+   line-height: 1.3;
+   display: flex;
+   align-items: center;
+   gap: 10px;
+}
+
+.tpTitleAccent {
+   display: inline-block;
+   width: 3px;
+   height: 18px;
+   border-radius: 2px;
+   background: var(--ant-color-primary, #1677ff);
+   flex-shrink: 0;
+}
+
+.tpSubtitle {
+   font-size: 12px;
+   color: var(--ant-color-text-tertiary, #666);
+   letter-spacing: 0.2px;
+}
+
+.tpHeaderActions {
+   display: flex;
+   align-items: center;
+   gap: 8px;
+   flex-shrink: 0;
+   flex-wrap: wrap;
+}
+
+/* ── Callouts ── */
+
+.tpCallout {
+   margin-top: 12px;
+}
+
+/* ── Stats Row ── */
+
+.tpStats {
+   display: grid;
+   grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+   gap: 8px;
+   margin-top: 16px;
+}
+
+.tpStatBlock {
+   display: flex;
+   flex-direction: column;
+   gap: 4px;
+   padding: 10px 12px;
+   border-radius: 8px;
+   border: 1px solid var(--ant-color-border-secondary, rgba(255, 255, 255, 0.06));
+   background: var(--ant-color-fill-quaternary, rgba(255, 255, 255, 0.02));
+   transition:
+      border-color 0.2s,
+      background 0.2s;
+}
+
+.tpStatBlock:hover {
+   border-color: color-mix(in srgb, var(--ant-color-primary, #1677ff) 25%, transparent);
+   background: color-mix(in srgb, var(--ant-color-primary, #1677ff) 3%, transparent);
+}
+
+.tpStatBlockUnsaved {
+   border-color: rgba(250, 173, 20, 0.2);
+   background: rgba(250, 173, 20, 0.04);
+}
+
+.tpStatBlockUnsaved:hover {
+   border-color: rgba(250, 173, 20, 0.35);
+   background: rgba(250, 173, 20, 0.06);
+}
+
+.tpStatLabel {
+   font-size: 11px;
+   font-weight: 500;
+   color: var(--ant-color-text-tertiary, #888);
+   text-transform: uppercase;
+   letter-spacing: 0.4px;
+}
+
+.tpStatValue {
+   font-size: 20px;
+   font-weight: 700;
+   font-family: 'SF Mono', 'Menlo', 'Monaco', 'Cascadia Code', monospace;
+   color: var(--ant-color-text, #e8e8e8);
+   line-height: 1.2;
+}
+
+.tpStatTotal {
+   font-size: 13px;
+   font-weight: 500;
+   color: var(--ant-color-text-quaternary, #555);
+}
+
+.tpStatValueMono {
+   font-size: 13px;
+   font-weight: 600;
+   font-family: 'SF Mono', 'Menlo', 'Monaco', 'Cascadia Code', monospace;
+   color: var(--ant-color-text, #e8e8e8);
+   line-height: 1.4;
+}
+
+.tpStatValueUnsaved {
+   font-size: 13px;
+   font-weight: 600;
+   font-family: 'SF Mono', 'Menlo', 'Monaco', 'Cascadia Code', monospace;
+   color: #faad14;
+   line-height: 1.4;
+}
+
+/* Mini progress bar */
+.tpProgressTrack {
+   height: 3px;
+   border-radius: 2px;
+   background: var(--ant-color-fill-secondary, rgba(255, 255, 255, 0.06));
+   overflow: hidden;
+   margin-top: 2px;
+}
+
+.tpProgressFill {
+   height: 100%;
+   border-radius: 2px;
+   background: var(--ant-color-primary, #1677ff);
+   transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+   box-shadow: 0 0 6px color-mix(in srgb, var(--ant-color-primary, #1677ff) 40%, transparent);
+}
+
+/* ── Quick Presets ── */
+
+.tpPresets {
+   display: flex;
+   align-items: center;
+   gap: 12px;
+   margin-top: 16px;
+   padding: 12px 0;
+   border-bottom: 1px solid var(--ant-color-border-secondary, rgba(255, 255, 255, 0.06));
+   flex-wrap: wrap;
+}
+
+.tpPresetsLabel {
+   font-size: 11px;
+   font-weight: 500;
+   color: var(--ant-color-text-tertiary, #888);
+   text-transform: uppercase;
+   letter-spacing: 0.4px;
+   white-space: nowrap;
+}
+
+.tpPresetsBtnGroup {
+   display: flex;
+   gap: 4px;
+   padding: 2px;
+   border-radius: 8px;
+   border: 1px solid var(--ant-color-border-secondary, rgba(255, 255, 255, 0.06));
+   background: var(--ant-color-fill-quaternary, rgba(255, 255, 255, 0.02));
+   flex-wrap: wrap;
+}
+
+.tpPresetBtn {
+   font-size: 12px;
+   font-weight: 500;
+   font-family: inherit;
+   padding: 4px 14px;
+   border-radius: 6px;
+   border: 1px solid transparent;
+   background: transparent;
+   color: var(--ant-color-text-secondary, #999);
+   cursor: pointer;
+   transition: all 0.18s ease;
+   line-height: 1.4;
+   white-space: nowrap;
+}
+
+.tpPresetBtn:hover:not(:disabled) {
+   color: var(--ant-color-text, #e8e8e8);
+   background: var(--ant-color-fill-secondary, rgba(255, 255, 255, 0.06));
+}
+
+.tpPresetBtnActive {
+   background: var(--ant-color-primary, #1677ff);
+   color: #fff;
+   border-color: var(--ant-color-primary, #1677ff);
+   box-shadow: 0 0 8px color-mix(in srgb, var(--ant-color-primary, #1677ff) 30%, transparent);
+}
+
+.tpPresetBtnActive:hover:not(:disabled) {
+   background: var(--ant-color-primary-hover, #4096ff);
+   color: #fff;
+}
+
+.tpPresetBtn:disabled {
+   opacity: 0.4;
+   cursor: not-allowed;
+}
+
+/* ── Tool Sections Grid ── */
+
+.tpGrid {
+   display: grid;
+   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+   gap: 12px;
+   margin-top: 16px;
+}
+
+.tpSection {
+   border: 1px solid var(--ant-color-border-secondary, rgba(255, 255, 255, 0.06));
+   border-radius: 10px;
+   background: var(--ant-color-bg-container, #141414);
+   overflow: hidden;
+   transition:
+      border-color 0.2s,
+      box-shadow 0.2s;
+   animation: tpSectionIn 0.3s ease both;
+}
+
+.tpSection:hover {
+   border-color: color-mix(in srgb, var(--ant-color-primary, #1677ff) 20%, transparent);
+   box-shadow: 0 0 0 1px color-mix(in srgb, var(--ant-color-primary, #1677ff) 6%, transparent);
+}
+
+.tpSectionHead {
+   display: flex;
+   align-items: center;
+   gap: 8px;
+   padding: 10px 14px;
+   border-bottom: 1px solid var(--ant-color-border-secondary, rgba(255, 255, 255, 0.06));
+   background: var(--ant-color-fill-quaternary, rgba(255, 255, 255, 0.02));
+}
+
+.tpSectionTitle {
+   font-size: 13px;
+   font-weight: 600;
+   color: var(--ant-color-text, #e8e8e8);
+   letter-spacing: 0.1px;
+}
+
+.tpSectionCount {
+   font-family: 'SF Mono', 'Menlo', 'Monaco', monospace;
+   font-size: 11px;
+   font-weight: 600;
+   color: var(--ant-color-text-quaternary, #555);
+   padding: 1px 8px;
+   border-radius: 10px;
+   background: var(--ant-color-fill-quaternary, rgba(255, 255, 255, 0.04));
+   border: 1px solid var(--ant-color-border-secondary, rgba(255, 255, 255, 0.06));
+   margin-left: auto;
+}
+
+.tpSectionBody {
+   display: flex;
+   flex-direction: column;
+   padding: 4px 0;
+}
+
+/* ── Tool Row ── */
+
+.tpToolRow {
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+   gap: 12px;
+   padding: 9px 14px;
+   transition: background 0.15s;
+}
+
+.tpToolRow:hover {
+   background: var(--ant-color-fill-quaternary, rgba(255, 255, 255, 0.02));
+}
+
+.tpToolRowOff {
+   opacity: 0.55;
+}
+
+.tpToolRowOff:hover {
+   opacity: 0.75;
+}
+
+.tpToolInfo {
+   flex: 1;
+   min-width: 0;
+}
+
+.tpToolName {
+   font-size: 13px;
+   font-weight: 500;
+   font-family: 'SF Mono', 'Menlo', 'Monaco', monospace;
+   color: var(--ant-color-text, #e8e8e8);
+   display: flex;
+   align-items: center;
+   gap: 8px;
+}
+
+.tpToolDesc {
+   font-size: 12px;
+   color: var(--ant-color-text-secondary, #999);
+   margin-top: 1px;
+   padding-left: 16px;
+}
+
+/* Status dot */
+.tpDot {
+   display: inline-block;
+   width: 7px;
+   height: 7px;
+   border-radius: 50%;
+   flex-shrink: 0;
+   transition:
+      background 0.2s,
+      box-shadow 0.2s;
+}
+
+.tpDot[data-on='true'] {
+   background: #52c41a;
+   box-shadow: 0 0 5px rgba(82, 196, 26, 0.4);
+}
+
+.tpDot[data-on='false'] {
+   background: var(--ant-color-text-quaternary, #444);
+}
+
+/* ── Badges ── */
+
+.tpBadges {
+   display: flex;
+   gap: 5px;
+   flex-wrap: wrap;
+   margin-top: 4px;
+   padding-left: 16px;
+}
+
+.tpBadge {
+   display: inline-flex;
+   align-items: center;
+   font-size: 10px;
+   font-weight: 500;
+   font-family: 'SF Mono', 'Menlo', 'Monaco', monospace;
+   letter-spacing: 0.2px;
+   padding: 1px 7px;
+   border-radius: 3px;
+   background: var(--ant-color-fill-quaternary, rgba(255, 255, 255, 0.04));
+   border: 1px solid var(--ant-color-border-secondary, rgba(255, 255, 255, 0.06));
+   color: var(--ant-color-text-secondary, #888);
+   line-height: 18px;
+}
+
+.tpBadgeCore {
+   color: color-mix(in srgb, var(--ant-color-primary, #1677ff) 80%, white);
+   border-color: color-mix(in srgb, var(--ant-color-primary, #1677ff) 20%, transparent);
+   background: color-mix(in srgb, var(--ant-color-primary, #1677ff) 6%, transparent);
+}
+
+.tpBadgePlugin {
+   color: #b37feb;
+   border-color: rgba(179, 127, 235, 0.2);
+   background: rgba(179, 127, 235, 0.06);
+}
+
+/* ── Skills Panel — Industrial Control Aesthetic (sp* prefix, parallels tp*) ── */
+
+.spRoot {
+   display: flex;
+   flex-direction: column;
+   gap: 0;
+}
+
+/* ── Header ── */
+
+.spHeader {
+   display: flex;
+   align-items: flex-start;
+   justify-content: space-between;
+   gap: 16px;
+   padding-bottom: 16px;
+   border-bottom: 1px solid var(--ant-color-border-secondary, rgba(255, 255, 255, 0.06));
+   flex-wrap: wrap;
+}
+
+.spHeaderLeft {
+   display: flex;
+   flex-direction: column;
+   gap: 4px;
+}
+
+.spTitle {
+   font-size: 18px;
+   font-weight: 700;
+   color: var(--ant-color-text, #e8e8e8);
+   letter-spacing: -0.3px;
+   line-height: 1.3;
+   display: flex;
+   align-items: center;
+   gap: 10px;
+}
+
+.spTitleAccent {
+   display: inline-block;
+   width: 3px;
+   height: 18px;
+   border-radius: 2px;
+   background: var(--ant-color-primary, #1677ff);
+   flex-shrink: 0;
+}
+
+.spSubtitle {
+   font-size: 12px;
+   color: var(--ant-color-text-tertiary, #666);
+   letter-spacing: 0.2px;
+}
+
+.spHeaderActions {
+   display: flex;
+   align-items: center;
+   gap: 8px;
+   flex-shrink: 0;
+   flex-wrap: wrap;
+}
+
+/* ── Button Group ── */
+
+.spBtnGroup {
+   display: flex;
+   gap: 4px;
+   padding: 2px;
+   border-radius: 8px;
+   border: 1px solid var(--ant-color-border-secondary, rgba(255, 255, 255, 0.06));
+   background: var(--ant-color-fill-quaternary, rgba(255, 255, 255, 0.02));
+}
+
+.spBtnGroupItem {
+   font-size: 12px;
+   font-weight: 500;
+   font-family: inherit;
+   padding: 4px 14px;
+   border-radius: 6px;
+   border: 1px solid transparent;
+   background: transparent;
+   color: var(--ant-color-text-secondary, #999);
+   cursor: pointer;
+   transition: all 0.18s ease;
+   line-height: 1.4;
+   white-space: nowrap;
+}
+
+.spBtnGroupItem:hover:not(:disabled) {
+   color: var(--ant-color-text, #e8e8e8);
+   background: var(--ant-color-fill-secondary, rgba(255, 255, 255, 0.06));
+}
+
+.spBtnGroupItem:disabled {
+   opacity: 0.4;
+   cursor: not-allowed;
+}
+
+/* ── Stats Row ── */
+
+.spStats {
+   display: grid;
+   grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+   gap: 8px;
+   margin-top: 16px;
+}
+
+.spStatBlock {
+   display: flex;
+   flex-direction: column;
+   gap: 4px;
+   padding: 10px 12px;
+   border-radius: 8px;
+   border: 1px solid var(--ant-color-border-secondary, rgba(255, 255, 255, 0.06));
+   background: var(--ant-color-fill-quaternary, rgba(255, 255, 255, 0.02));
+   transition:
+      border-color 0.2s,
+      background 0.2s;
+}
+
+.spStatBlock:hover {
+   border-color: color-mix(in srgb, var(--ant-color-primary, #1677ff) 25%, transparent);
+   background: color-mix(in srgb, var(--ant-color-primary, #1677ff) 3%, transparent);
+}
+
+.spStatLabel {
+   font-size: 11px;
+   font-weight: 500;
+   color: var(--ant-color-text-tertiary, #888);
+   text-transform: uppercase;
+   letter-spacing: 0.4px;
+}
+
+.spStatValue {
+   font-size: 20px;
+   font-weight: 700;
+   font-family: 'SF Mono', 'Menlo', 'Monaco', 'Cascadia Code', monospace;
+   color: var(--ant-color-text, #e8e8e8);
+   line-height: 1.2;
+}
+
+.spStatTotal {
+   font-size: 13px;
+   font-weight: 500;
+   color: var(--ant-color-text-quaternary, #555);
+}
+
+.spStatValueMono {
+   font-size: 13px;
+   font-weight: 600;
+   font-family: 'SF Mono', 'Menlo', 'Monaco', 'Cascadia Code', monospace;
+   color: var(--ant-color-text, #e8e8e8);
+   line-height: 1.4;
+}
+
+.spStatBlockUnsaved {
+   border-color: rgba(250, 173, 20, 0.2);
+   background: rgba(250, 173, 20, 0.04);
+}
+
+.spStatBlockUnsaved:hover {
+   border-color: rgba(250, 173, 20, 0.35);
+   background: rgba(250, 173, 20, 0.06);
+}
+
+.spStatValueUnsaved {
+   font-size: 13px;
+   font-weight: 600;
+   font-family: 'SF Mono', 'Menlo', 'Monaco', 'Cascadia Code', monospace;
+   color: #faad14;
+   line-height: 1.4;
+}
+
+.spProgressTrack {
+   height: 3px;
+   border-radius: 2px;
+   background: var(--ant-color-fill-secondary, rgba(255, 255, 255, 0.06));
+   overflow: hidden;
+   margin-top: 2px;
+}
+
+.spProgressFill {
+   height: 100%;
+   border-radius: 2px;
+   background: var(--ant-color-primary, #1677ff);
+   transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+   box-shadow: 0 0 6px color-mix(in srgb, var(--ant-color-primary, #1677ff) 40%, transparent);
+}
+
+/* ── Filter Row ── */
+
+.spFilter {
+   display: flex;
+   align-items: center;
+   gap: 12px;
+   flex-wrap: wrap;
+   margin-top: 14px;
+   padding-bottom: 12px;
+   border-bottom: 1px solid var(--ant-color-border-secondary, rgba(255, 255, 255, 0.06));
+}
+
+.spFilterCount {
+   font-size: 12px;
+   font-family: 'SF Mono', 'Menlo', 'Monaco', monospace;
+   color: var(--ant-color-text-quaternary, #555);
+   white-space: nowrap;
+}
+
+/* ── Skill Group Sections (Collapsible) ── */
+
+.spGrid {
+   display: flex;
+   flex-direction: column;
+   gap: 12px;
+   margin-top: 16px;
+}
+
+.spSection {
+   border: 1px solid var(--ant-color-border-secondary, rgba(255, 255, 255, 0.06));
+   border-radius: 10px;
+   background: var(--ant-color-bg-container, #141414);
+   overflow: hidden;
+   transition:
+      border-color 0.2s,
+      box-shadow 0.2s;
+   animation: tpSectionIn 0.3s ease both;
+}
+
+.spSection:hover {
+   border-color: color-mix(in srgb, var(--ant-color-primary, #1677ff) 20%, transparent);
+   box-shadow: 0 0 0 1px color-mix(in srgb, var(--ant-color-primary, #1677ff) 6%, transparent);
+}
+
+.spSectionHead {
+   display: flex;
+   align-items: center;
+   gap: 8px;
+   padding: 10px 14px;
+   border-bottom: 1px solid var(--ant-color-border-secondary, rgba(255, 255, 255, 0.06));
+   background: var(--ant-color-fill-quaternary, rgba(255, 255, 255, 0.02));
+   cursor: pointer;
+   user-select: none;
+   transition: background 0.15s;
+}
+
+.spSectionHead:hover {
+   background: var(--ant-color-fill-tertiary, rgba(255, 255, 255, 0.04));
+}
+
+.spSectionTitle {
+   font-size: 13px;
+   font-weight: 600;
+   color: var(--ant-color-text, #e8e8e8);
+   letter-spacing: 0.1px;
+}
+
+.spSectionCount {
+   font-family: 'SF Mono', 'Menlo', 'Monaco', monospace;
+   font-size: 11px;
+   font-weight: 600;
+   color: var(--ant-color-text-quaternary, #555);
+   padding: 1px 8px;
+   border-radius: 10px;
+   background: var(--ant-color-fill-quaternary, rgba(255, 255, 255, 0.04));
+   border: 1px solid var(--ant-color-border-secondary, rgba(255, 255, 255, 0.06));
+   margin-left: auto;
+}
+
+.spSectionArrow {
+   font-size: 10px;
+   color: var(--ant-color-text-quaternary, #555);
+   transition: transform 0.2s ease;
+   flex-shrink: 0;
+}
+
+.spSectionArrowOpen {
+   transform: rotate(90deg);
+}
+
+.spSectionBody {
+   display: flex;
+   flex-direction: column;
+   padding: 4px 0;
+}
+
+/* ── Skill Row ── */
+
+.spSkillRow {
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+   gap: 12px;
+   padding: 9px 14px;
+   transition: background 0.15s;
+}
+
+.spSkillRow:hover {
+   background: var(--ant-color-fill-quaternary, rgba(255, 255, 255, 0.02));
+}
+
+.spSkillRowOff {
+   opacity: 0.55;
+}
+
+.spSkillRowOff:hover {
+   opacity: 0.75;
+}
+
+.spSkillInfo {
+   flex: 1;
+   min-width: 0;
+}
+
+.spSkillName {
+   font-size: 13px;
+   font-weight: 500;
+   font-family: 'SF Mono', 'Menlo', 'Monaco', monospace;
+   color: var(--ant-color-text, #e8e8e8);
+   display: flex;
+   align-items: center;
+   gap: 8px;
+}
+
+.spSkillDesc {
+   font-size: 12px;
+   color: var(--ant-color-text-secondary, #999);
+   margin-top: 1px;
+   padding-left: 16px;
+}
+
+.spSkillMissing {
+   font-size: 11px;
+   color: var(--ant-color-text-quaternary, #666);
+   margin-top: 6px;
+   padding-left: 16px;
+}
+
+.spSkillReasons {
+   font-size: 11px;
+   color: var(--ant-color-text-quaternary, #666);
+   margin-top: 4px;
+   padding-left: 16px;
+}
+
+/* ── Status Chips ── */
+
+.spChips {
+   display: flex;
+   gap: 5px;
+   flex-wrap: wrap;
+   margin-top: 4px;
+   padding-left: 16px;
+}
+
+.spChip {
+   display: inline-flex;
+   align-items: center;
+   font-size: 10px;
+   font-weight: 500;
+   font-family: 'SF Mono', 'Menlo', 'Monaco', monospace;
+   letter-spacing: 0.2px;
+   padding: 1px 7px;
+   border-radius: 3px;
+   background: var(--ant-color-fill-quaternary, rgba(255, 255, 255, 0.04));
+   border: 1px solid var(--ant-color-border-secondary, rgba(255, 255, 255, 0.06));
+   color: var(--ant-color-text-secondary, #888);
+   line-height: 18px;
+}
+
+.spChipOk {
+   color: #52c41a;
+   border-color: rgba(82, 196, 26, 0.2);
+   background: rgba(82, 196, 26, 0.06);
+}
+
+.spChipWarn {
+   color: #faad14;
+   border-color: rgba(250, 173, 20, 0.2);
+   background: rgba(250, 173, 20, 0.06);
+}
+
+/* Channels 面板 */
+
+/* ── Channels 两栏布局 ── */
+.channelsLayout {
+   display: grid;
+   grid-template-columns: 1fr 1fr;
+   gap: 16px;
+}
+
+@media (max-width: 720px) {
+   .channelsLayout {
+      grid-template-columns: 1fr;
+   }
+}
+
+/* Agent 上下文详情卡片（左列） */
+.contextDetailCard {
+   padding: 16px;
+   border-radius: 8px;
+   border: 1px solid var(--ant-color-border-secondary, #f0f0f0);
+   background: var(--ant-color-bg-container, #fff);
+}
+
+.contextDetailTitle {
+   font-size: 15px;
+   font-weight: 600;
+   color: var(--ant-color-text, #333);
+}
+
+.contextDetailSub {
+   font-size: 12px;
+   color: var(--ant-color-text-secondary, #888);
+   margin-top: 2px;
+}
+
+.contextDetailGrid {
+   display: grid;
+   grid-template-columns: 1fr 1fr;
+   gap: 10px;
+   margin-top: 16px;
+}
+
+/* 频道状态卡片（右列） */
+.channelsStatusCard {
+   padding: 16px;
+   border-radius: 8px;
+   border: 1px solid var(--ant-color-border-secondary, #f0f0f0);
+   background: var(--ant-color-bg-container, #fff);
+}
+
+.channelsStatusHeader {
+   display: flex;
+   justify-content: space-between;
+   align-items: flex-start;
+}
+
+.channelsStatusTitle {
+   font-size: 15px;
+   font-weight: 600;
+   color: var(--ant-color-text, #333);
+}
+
+.channelsStatusSub {
+   font-size: 12px;
+   color: var(--ant-color-text-secondary, #888);
+   margin-top: 2px;
+}
+
+/* 频道条目列表 */
+.channelEntryList {
+   margin-top: 16px;
+}
+
+.channelEntry {
+   padding: 12px 0;
+   border-bottom: 1px solid var(--ant-color-border-secondary, #f0f0f0);
+   display: flex;
+   justify-content: space-between;
+   align-items: flex-start;
+   gap: 16px;
+}
+
+.channelEntry:last-child {
+   border-bottom: none;
+}
+
+.channelEntryMain {
+   min-width: 0;
+}
+
+.channelEntryLabel {
+   font-size: 14px;
+   font-weight: 500;
+   color: var(--ant-color-text, #333);
+}
+
+.channelEntryId {
+   font-size: 12px;
+   font-family: 'SF Mono', 'Menlo', 'Monaco', monospace;
+   color: var(--ant-color-text-tertiary, #888);
+   margin-top: 2px;
+}
+
+.channelEntryMeta {
+   text-align: right;
+   font-size: 12px;
+   color: var(--ant-color-text-secondary, #666);
+   white-space: nowrap;
+   flex-shrink: 0;
+}
+
+.channelEntryMetaLine {
+   line-height: 1.8;
+}
+
+.channelSetupLink {
+   color: var(--ant-color-primary, #1677ff);
+   font-size: 12px;
+   text-decoration: none;
+}
+
+.channelSetupLink:hover {
+   text-decoration: underline;
+}
+
+/* Cron 面板 */
+
+/* ── Cron 两栏布局（上部: Agent Context + Scheduler） ── */
+.cronTopGrid {
+   display: grid;
+   grid-template-columns: 1fr 1fr;
+   gap: 16px;
+   margin-bottom: 20px;
+}
+
+@media (max-width: 720px) {
+   .cronTopGrid {
+      grid-template-columns: 1fr;
+   }
+}
+
+.cronSchedulerCard {
+   padding: 16px;
+   border-radius: 8px;
+   border: 1px solid var(--ant-color-border-secondary, #f0f0f0);
+   background: var(--ant-color-bg-container, #fff);
+}
+
+.cronSchedulerHeader {
+   display: flex;
+   justify-content: space-between;
+   align-items: flex-start;
+}
+
+.cronSchedulerTitle {
+   font-size: 15px;
+   font-weight: 600;
+   color: var(--ant-color-text, #333);
+}
+
+.cronSchedulerSub {
+   font-size: 12px;
+   color: var(--ant-color-text-secondary, #888);
+   margin-top: 2px;
+}
+
+.cronSchedulerStats {
+   display: grid;
+   grid-template-columns: repeat(3, 1fr);
+   gap: 10px;
+   margin-top: 16px;
+}
+
+.cronSchedulerSection {
+   margin-bottom: 20px;
+}
+
+.cronJobsSection {
+   margin-top: 4px;
+}
+
+.cronList {
+   display: grid;
+   gap: 8px;
+}
+
+.cronItem {
+   display: flex;
+   flex-direction: column;
+   align-items: stretch;
+   gap: 10px;
+   padding: 12px 16px;
+   border: 1px solid var(--ant-color-border-secondary, #f0f0f0);
+   border-radius: 8px;
+   transition:
+      border-color 0.2s,
+      background 0.2s;
+}
+
+.cronItem:hover {
+   border-color: color-mix(in srgb, var(--ant-color-primary, #1677ff) 25%, transparent);
+   background: var(--ant-color-fill-quaternary, rgba(255, 255, 255, 0.02));
+}
+
+.cronItemMain {
+   display: flex;
+   flex-direction: column;
+   gap: 4px;
+}
+
+.cronItemName {
+   font-size: 13px;
+   font-weight: 600;
+   color: var(--ant-color-text, #333);
+}
+
+.cronItemDesc {
+   font-size: 12px;
+   color: var(--ant-color-text-secondary, #888);
+   margin-top: 2px;
+}
+
+.cronChipRow {
+   display: flex;
+   flex-wrap: wrap;
+   gap: 6px;
+   margin-top: 6px;
+}
+
+.cronChip {
+   display: inline-flex;
+   align-items: center;
+   font-size: 11px;
+   font-weight: 500;
+   font-family: 'SF Mono', 'Menlo', 'Monaco', monospace;
+   letter-spacing: 0.2px;
+   padding: 1px 8px;
+   border-radius: 4px;
+   background: var(--ant-color-fill-quaternary, rgba(255, 255, 255, 0.04));
+   border: 1px solid var(--ant-color-border-secondary, rgba(255, 255, 255, 0.06));
+   color: var(--ant-color-text-secondary, #888);
+   line-height: 18px;
+}
+
+.cronChipOk {
+   composes: cronChip;
+   color: #52c41a;
+   border-color: rgba(82, 196, 26, 0.2);
+   background: rgba(82, 196, 26, 0.06);
+}
+
+.cronChipWarn {
+   composes: cronChip;
+   color: #faad14;
+   border-color: rgba(250, 173, 20, 0.2);
+   background: rgba(250, 173, 20, 0.06);
+}
+
+.cronItemMeta {
+   display: flex;
+   flex-direction: column;
+   gap: 6px;
+   padding-top: 10px;
+   border-top: 1px solid var(--ant-color-border-secondary, rgba(255, 255, 255, 0.06));
+}
+
+.cronItemState {
+   font-size: 12px;
+   font-family: 'SF Mono', 'Menlo', 'Monaco', monospace;
+   color: var(--ant-color-text, #333);
+   line-height: 1.4;
+}
+
+.cronItemPayload {
+   font-size: 12px;
+   color: var(--ant-color-text-secondary, #888);
+   line-height: 1.4;
+}
+
+.cronItemActions {
+   display: flex;
+   justify-content: flex-end;
+   margin-top: 2px;
+}

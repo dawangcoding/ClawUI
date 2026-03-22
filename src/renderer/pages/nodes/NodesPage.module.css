@@ -1,0 +1,452 @@
+/* ── 节点页面样式 ── */
+
+/* ── 页面级 ── */
+
+.pageContainer {
+   display: flex;
+   flex-direction: column;
+   gap: 16px;
+}
+
+.pageTitle {
+   font-size: 16px;
+   font-weight: 600;
+   color: var(--ant-color-text);
+   margin: 0 !important;
+}
+
+/* ── Card Title 增强 ── */
+
+.cardTitleRow {
+   display: flex;
+   align-items: center;
+   gap: 8px;
+}
+
+.cardTitleIcon {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   width: 28px;
+   height: 28px;
+   border-radius: 6px;
+   font-size: 14px;
+   flex-shrink: 0;
+   color: var(--card-icon-color, var(--ant-color-primary, #1677ff));
+   background: color-mix(
+      in srgb,
+      var(--card-icon-color, var(--ant-color-primary, #1677ff)) 8%,
+      transparent
+   );
+}
+
+.cardTitleText {
+   font-size: 14px;
+   font-weight: 600;
+   color: var(--ant-color-text);
+}
+
+.cardSubtitle {
+   font-size: 12px;
+   color: var(--ant-color-text-secondary);
+   display: block;
+   margin-bottom: 4px;
+}
+
+/* ── 通用行样式 ── */
+
+.row {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   padding: 10px 14px;
+   border-radius: 8px;
+   border: 1px solid var(--ant-color-border-secondary, #303030);
+   transition: background 0.15s, border-color 0.15s;
+}
+
+.row:hover {
+   background: var(--ant-color-fill-quaternary, rgba(255, 255, 255, 0.02));
+   border-color: var(--ant-color-border, #424242);
+}
+
+.rowVert {
+   composes: row;
+   flex-direction: column;
+   align-items: stretch;
+}
+
+.rowTitle {
+   font-weight: 600;
+   font-size: 13px;
+   color: var(--ant-color-text);
+}
+
+.rowDesc {
+   font-size: 12px;
+   color: var(--ant-color-text-secondary);
+   margin-top: 2px;
+}
+
+.rowRight {
+   display: flex;
+   align-items: flex-end;
+   gap: 12px;
+}
+
+.fieldLabel {
+   font-size: 11px;
+   font-weight: 500;
+   color: var(--ant-color-text-tertiary);
+   display: block;
+   margin-bottom: 2px;
+}
+
+.rowList {
+   display: flex;
+   flex-direction: column;
+   gap: 8px;
+}
+
+/* ── Monospace / ID ── */
+
+.mono {
+   font-family: 'SF Mono', 'Menlo', 'Monaco', monospace;
+}
+
+.idGroup {
+   display: inline-flex;
+   align-items: center;
+}
+
+.idText {
+   font-family: 'SF Mono', 'Menlo', 'Monaco', monospace;
+   font-size: 12px;
+   color: var(--ant-color-text-secondary);
+   max-width: 260px;
+   overflow: hidden;
+   text-overflow: ellipsis;
+   white-space: nowrap;
+   display: inline-block;
+   vertical-align: middle;
+}
+
+.idCopyBtn {
+   display: inline-flex;
+   align-items: center;
+   margin-left: 4px;
+   padding: 0 2px;
+   border: none;
+   background: none;
+   cursor: pointer;
+   color: var(--ant-color-text-quaternary);
+   font-size: 12px;
+   transition: color 0.15s, opacity 0.15s;
+   opacity: 0;
+   vertical-align: middle;
+}
+
+.idGroup:hover .idCopyBtn {
+   opacity: 1;
+   color: var(--ant-color-primary, #1677ff);
+}
+
+/* ── 状态 Badge ── */
+
+.badge {
+   display: inline-flex;
+   align-items: center;
+   padding: 2px 8px;
+   border-radius: 4px;
+   font-size: 11px;
+   font-weight: 500;
+   letter-spacing: 0.3px;
+   white-space: nowrap;
+}
+
+.badgeConnected {
+   composes: badge;
+   color: #52c41a;
+   background: rgba(82, 196, 26, 0.12);
+}
+
+.badgeOffline {
+   composes: badge;
+   color: var(--ant-color-text-quaternary);
+   background: var(--ant-color-fill-quaternary);
+}
+
+.badgePaired {
+   composes: badge;
+   color: #1677ff;
+   background: rgba(22, 119, 255, 0.12);
+}
+
+.badgeUnpaired {
+   composes: badge;
+   color: var(--ant-color-text-tertiary);
+   background: var(--ant-color-fill-secondary);
+}
+
+.badgeActive {
+   composes: badge;
+   color: #52c41a;
+   background: rgba(82, 196, 26, 0.12);
+}
+
+.badgeRevoked {
+   composes: badge;
+   color: #ff4d4f;
+   background: rgba(255, 77, 79, 0.12);
+}
+
+.badgeRepair {
+   composes: badge;
+   color: #faad14;
+   background: rgba(250, 173, 20, 0.12);
+}
+
+.badgeCap {
+   composes: badge;
+   font-family: 'SF Mono', 'Menlo', 'Monaco', monospace;
+   font-size: 10px;
+   color: var(--ant-color-text-secondary);
+   background: var(--ant-color-fill-quaternary);
+   border: 1px solid var(--ant-color-border-secondary);
+}
+
+.badgeCmd {
+   composes: badge;
+   font-family: 'SF Mono', 'Menlo', 'Monaco', monospace;
+   font-size: 10px;
+   color: color-mix(in srgb, var(--ant-color-primary, #1677ff) 80%, white);
+   background: color-mix(in srgb, var(--ant-color-primary, #1677ff) 6%, transparent);
+   border: 1px solid color-mix(in srgb, var(--ant-color-primary, #1677ff) 20%, transparent);
+}
+
+/* ── Status Dot ── */
+
+.statusDot {
+   display: inline-block;
+   width: 7px;
+   height: 7px;
+   border-radius: 50%;
+   flex-shrink: 0;
+   transition: background 0.2s, box-shadow 0.2s;
+}
+
+.statusDotOn {
+   composes: statusDot;
+   background: #52c41a;
+   box-shadow: 0 0 5px rgba(82, 196, 26, 0.4);
+}
+
+.statusDotOff {
+   composes: statusDot;
+   background: var(--ant-color-text-quaternary, #444);
+}
+
+/* ── 空状态 / 未加载 ── */
+
+.notLoadedBox {
+   display: flex;
+   align-items: center;
+   gap: 12px;
+   padding: 16px;
+   margin-top: 12px;
+   border-radius: 8px;
+   border: 1px dashed var(--ant-color-border-secondary, #303030);
+   background: var(--ant-color-fill-quaternary);
+}
+
+.notLoadedText {
+   font-size: 13px;
+   color: var(--ant-color-text-secondary);
+}
+
+.emptyText {
+   font-size: 13px;
+   color: var(--ant-color-text-tertiary);
+   padding: 24px;
+   text-align: center;
+}
+
+/* ── Dirty 状态 ── */
+
+.dirtyIndicator {
+   display: inline-block;
+   width: 6px;
+   height: 6px;
+   border-radius: 50%;
+   background: #faad14;
+   margin-left: 8px;
+   box-shadow: 0 0 4px rgba(250, 173, 20, 0.4);
+   vertical-align: middle;
+}
+
+/* ── Scope Tabs ── */
+
+.scopeTabs {
+   display: flex;
+   align-items: center;
+   gap: 8px;
+   margin-top: 14px;
+   flex-wrap: wrap;
+}
+
+.scopeLabel {
+   font-size: 11px;
+   font-weight: 500;
+   color: var(--ant-color-text-tertiary);
+   text-transform: uppercase;
+   letter-spacing: 0.4px;
+   flex-shrink: 0;
+}
+
+.scopeBtnGroup {
+   display: flex;
+   gap: 4px;
+   padding: 2px;
+   border-radius: 8px;
+   border: 1px solid var(--ant-color-border-secondary, #303030);
+   background: var(--ant-color-fill-quaternary);
+   flex-wrap: wrap;
+}
+
+.scopeBtn {
+   font-size: 12px;
+   font-weight: 500;
+   padding: 4px 12px;
+   border-radius: 6px;
+   border: 1px solid transparent;
+   background: transparent;
+   color: var(--ant-color-text-secondary);
+   cursor: pointer;
+   transition: all 0.18s;
+   white-space: nowrap;
+}
+
+.scopeBtn:hover {
+   color: var(--ant-color-text);
+   background: var(--ant-color-fill-secondary);
+}
+
+.scopeBtnActive {
+   composes: scopeBtn;
+   background: var(--ant-color-primary, #1677ff);
+   color: #fff;
+   border-color: var(--ant-color-primary, #1677ff);
+   box-shadow: 0 0 8px color-mix(in srgb, var(--ant-color-primary, #1677ff) 30%, transparent);
+}
+
+.scopeBtnActive:hover {
+   background: var(--ant-color-primary, #1677ff);
+   color: #fff;
+}
+
+/* ── Token Row ── */
+
+.tokenRow {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   gap: 12px;
+   padding: 8px 12px;
+   border-radius: 6px;
+   border: 1px solid var(--ant-color-border-secondary, #303030);
+   transition: background 0.15s;
+}
+
+.tokenRow:hover {
+   background: var(--ant-color-fill-quaternary);
+}
+
+.tokenInfo {
+   flex: 1;
+   min-width: 0;
+   display: flex;
+   flex-direction: column;
+   gap: 2px;
+}
+
+.tokenRole {
+   font-size: 12px;
+   font-weight: 600;
+   color: var(--ant-color-text);
+   font-family: 'SF Mono', 'Menlo', 'Monaco', monospace;
+}
+
+.tokenMeta {
+   font-size: 11px;
+   color: var(--ant-color-text-tertiary);
+   display: flex;
+   align-items: center;
+   gap: 6px;
+   flex-wrap: wrap;
+}
+
+.tokenSep {
+   opacity: 0.3;
+}
+
+/* ── Section Headers ── */
+
+.sectionHeader {
+   display: flex;
+   align-items: center;
+   gap: 6px;
+   margin-bottom: 10px;
+}
+
+.sectionTitle {
+   font-size: 12px;
+   font-weight: 600;
+   color: var(--ant-color-text-secondary);
+   letter-spacing: 0.3px;
+}
+
+.sectionCount {
+   font-family: 'SF Mono', monospace;
+   font-size: 11px;
+   color: var(--ant-color-text-quaternary);
+   padding: 1px 6px;
+   border-radius: 10px;
+   background: var(--ant-color-fill-quaternary);
+   border: 1px solid var(--ant-color-border-secondary);
+}
+
+/* ── Allowlist ── */
+
+.patternText {
+   font-family: 'SF Mono', 'Menlo', 'Monaco', monospace;
+   font-size: 13px;
+   font-weight: 500;
+   color: var(--ant-color-text);
+}
+
+.commandPreview {
+   font-family: 'SF Mono', 'Menlo', 'Monaco', monospace;
+   font-size: 12px;
+   color: var(--ant-color-text-tertiary);
+   max-width: 400px;
+   overflow: hidden;
+   text-overflow: ellipsis;
+   white-space: nowrap;
+}
+
+/* ── Badge Group ── */
+
+.badgeGroup {
+   display: flex;
+   gap: 4px;
+   flex-wrap: wrap;
+   margin-top: 6px;
+}
+
+/* ── Node Row Title Line ── */
+
+.nodeTitleLine {
+   display: flex;
+   align-items: center;
+   gap: 8px;
+}

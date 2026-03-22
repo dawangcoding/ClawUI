@@ -1,0 +1,727 @@
+/* ── ClawUI Usage Dashboard ── */
+/* Refined Data Terminal aesthetic: dense, monospaced numbers, subtle accents */
+
+/* ── Page container ── */
+
+.pageContainer {
+   display: flex;
+   flex-direction: column;
+   gap: 16px;
+}
+
+/* ── Filter bar ── */
+
+.filterBar {
+   padding: 10px 0 12px;
+   border-bottom: 1px solid var(--ant-color-border-secondary, #2a2a2a);
+}
+
+.filterBarPinned {
+   composes: filterBar;
+   position: sticky;
+   top: 0;
+   z-index: 10;
+   background: var(--ant-color-bg-container);
+   border-bottom: 1px solid var(--ant-color-border);
+}
+
+.filterRow {
+   display: flex;
+   align-items: center;
+   gap: 8px;
+   flex-wrap: wrap;
+}
+
+.filterSummary {
+   display: flex;
+   align-items: center;
+   gap: 6px;
+   margin-left: auto;
+   font-size: 12px;
+}
+
+.filterSummaryItem {
+   display: inline-flex;
+   align-items: center;
+   gap: 4px;
+   padding: 2px 10px;
+   border-radius: 4px;
+   background: var(--ant-color-fill-quaternary, #1a1a1a);
+   border: 1px solid var(--ant-color-border-secondary, #2a2a2a);
+   font-family: 'SF Mono', 'Menlo', 'Monaco', 'Cascadia Code', monospace;
+   font-size: 12px;
+   color: var(--ant-color-text);
+   white-space: nowrap;
+}
+
+.filterSummaryLabel {
+   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+   color: var(--ant-color-text-tertiary);
+   font-size: 11px;
+}
+
+.filterTagsRow {
+   display: flex;
+   align-items: center;
+   gap: 4px;
+   flex-wrap: wrap;
+   margin-top: 8px;
+}
+
+/* ── Overview section ── */
+
+.overviewSection {
+   display: flex;
+   flex-direction: column;
+   gap: 12px;
+}
+
+/* ── Hero metrics: primary stats ── */
+
+.heroMetrics {
+   display: grid;
+   grid-template-columns: repeat(3, 1fr);
+   gap: 12px;
+}
+
+.heroCard {
+   position: relative;
+   padding: 16px 20px;
+   border-radius: 8px;
+   background: var(--ant-color-bg-container, #1a1a1a);
+   border: 1px solid var(--ant-color-border-secondary, #2a2a2a);
+   overflow: hidden;
+   transition: border-color 0.2s;
+}
+
+.heroCard:hover {
+   border-color: var(--ant-color-border, #404040);
+}
+
+.heroCard::before {
+   content: '';
+   position: absolute;
+   left: 0;
+   top: 0;
+   bottom: 0;
+   width: 3px;
+   border-radius: 8px 0 0 8px;
+}
+
+.heroCardBlue::before {
+   background: #3b82f6;
+   box-shadow: 0 0 12px rgba(59, 130, 246, 0.3);
+}
+
+.heroCardGreen::before {
+   background: #22c55e;
+   box-shadow: 0 0 12px rgba(34, 197, 94, 0.3);
+}
+
+.heroCardAmber::before {
+   background: #f59e0b;
+   box-shadow: 0 0 12px rgba(245, 158, 11, 0.3);
+}
+
+.heroCardRed::before {
+   background: #ef4444;
+   box-shadow: 0 0 12px rgba(239, 68, 68, 0.3);
+}
+
+.heroCardPurple::before {
+   background: #a855f7;
+   box-shadow: 0 0 12px rgba(168, 85, 247, 0.3);
+}
+
+.heroLabel {
+   display: flex;
+   align-items: center;
+   gap: 4px;
+   font-size: 12px;
+   color: var(--ant-color-text-tertiary);
+   margin-bottom: 8px;
+}
+
+.heroValue {
+   font-family: 'SF Mono', 'Menlo', 'Monaco', 'Cascadia Code', monospace;
+   font-size: 28px;
+   font-weight: 700;
+   letter-spacing: -0.5px;
+   color: var(--ant-color-text);
+   line-height: 1.1;
+}
+
+.heroSuffix {
+   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+   font-size: 13px;
+   font-weight: 400;
+   color: var(--ant-color-text-secondary);
+   margin-left: 8px;
+   letter-spacing: 0;
+}
+
+/* ── Secondary metrics: compact stat row ── */
+
+.secondaryMetrics {
+   display: grid;
+   grid-template-columns: repeat(3, 1fr);
+   gap: 10px;
+}
+
+.secondaryCard {
+   padding: 12px 16px;
+   border-radius: 6px;
+   background: var(--ant-color-fill-quaternary, #141414);
+   border: 1px solid var(--ant-color-border-secondary, #2a2a2a);
+   transition: border-color 0.2s;
+}
+
+.secondaryCard:hover {
+   border-color: var(--ant-color-border, #404040);
+}
+
+.secondaryLabel {
+   display: flex;
+   align-items: center;
+   gap: 4px;
+   font-size: 11px;
+   color: var(--ant-color-text-quaternary);
+   margin-bottom: 6px;
+}
+
+.secondaryValue {
+   font-family: 'SF Mono', 'Menlo', 'Monaco', 'Cascadia Code', monospace;
+   font-size: 18px;
+   font-weight: 600;
+   color: var(--ant-color-text);
+   line-height: 1.2;
+}
+
+.secondarySuffix {
+   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+   font-size: 11px;
+   font-weight: 400;
+   color: var(--ant-color-text-tertiary);
+   margin-left: 6px;
+   letter-spacing: 0;
+}
+
+/* ── Ranking / insight lists ── */
+
+.rankingGrid {
+   display: grid;
+   grid-template-columns: repeat(3, 1fr);
+   gap: 12px;
+}
+
+.rankingPanel {
+   padding: 14px 16px;
+   border-radius: 8px;
+   background: var(--ant-color-bg-container, #1a1a1a);
+   border: 1px solid var(--ant-color-border-secondary, #2a2a2a);
+   min-height: 0;
+}
+
+.rankingTitle {
+   font-size: 12px;
+   font-weight: 600;
+   color: var(--ant-color-text-secondary);
+   margin-bottom: 10px;
+   letter-spacing: 0.3px;
+   text-transform: uppercase;
+}
+
+.rankingItem {
+   display: flex;
+   align-items: baseline;
+   justify-content: space-between;
+   padding: 5px 0;
+   border-bottom: 1px solid var(--ant-color-border-secondary, #1f1f1f);
+   font-size: 12px;
+}
+
+.rankingItem:last-child {
+   border-bottom: none;
+   padding-bottom: 0;
+}
+
+.rankingItemLabel {
+   overflow: hidden;
+   text-overflow: ellipsis;
+   white-space: nowrap;
+   max-width: 55%;
+   color: var(--ant-color-text);
+   font-size: 12px;
+}
+
+.rankingItemValue {
+   font-family: 'SF Mono', 'Menlo', 'Monaco', 'Cascadia Code', monospace;
+   font-weight: 500;
+   color: var(--ant-color-text);
+   white-space: nowrap;
+   font-size: 12px;
+}
+
+.rankingItemSub {
+   font-size: 10px;
+   color: var(--ant-color-text-quaternary);
+   margin-left: 6px;
+}
+
+.rankingEmpty {
+   color: var(--ant-color-text-quaternary);
+   text-align: center;
+   padding: 16px 0;
+   font-size: 12px;
+}
+
+/* ── Chart section ── */
+
+.chartGrid {
+   display: grid;
+   grid-template-columns: 2fr 1fr;
+   gap: 16px;
+}
+
+.chartCard {
+   border-radius: 8px;
+   background: var(--ant-color-bg-container, #1a1a1a);
+   border: 1px solid var(--ant-color-border-secondary, #2a2a2a);
+   overflow: hidden;
+}
+
+.chartHeader {
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+   padding: 12px 16px;
+   border-bottom: 1px solid var(--ant-color-border-secondary, #222);
+}
+
+.chartTitle {
+   font-size: 13px;
+   font-weight: 600;
+   color: var(--ant-color-text);
+}
+
+.chartBody {
+   padding: 12px 16px 16px;
+}
+
+/* ── Breakdown bar ── */
+
+.breakdownBar {
+   display: flex;
+   height: 6px;
+   border-radius: 3px;
+   overflow: hidden;
+   margin-top: 12px;
+   background: var(--ant-color-fill-quaternary, #1a1a1a);
+}
+
+.breakdownLegend {
+   display: flex;
+   gap: 14px;
+   margin-top: 8px;
+   font-size: 11px;
+   color: var(--ant-color-text-tertiary);
+}
+
+.legendDot {
+   display: inline-block;
+   width: 7px;
+   height: 7px;
+   border-radius: 2px;
+   margin-right: 4px;
+   flex-shrink: 0;
+   vertical-align: middle;
+}
+
+/* ── Activity grid ── */
+
+.activitySection {
+   display: flex;
+   flex-direction: column;
+   gap: 16px;
+}
+
+.activityLabel {
+   font-size: 11px;
+   color: var(--ant-color-text-quaternary);
+   font-weight: 500;
+   letter-spacing: 0.3px;
+   text-transform: uppercase;
+   margin-bottom: 6px;
+}
+
+.weekdayGrid {
+   display: grid;
+   grid-template-columns: repeat(7, 1fr);
+   gap: 4px;
+}
+
+.weekdayCell {
+   padding: 6px 4px;
+   text-align: center;
+   font-size: 11px;
+   border-radius: 4px;
+   cursor: default;
+   transition: all 0.15s;
+   border: 1px solid transparent;
+}
+
+.weekdayCell:hover {
+   border-color: var(--ant-color-border);
+}
+
+.hourGrid {
+   display: grid;
+   grid-template-columns: repeat(24, 1fr);
+   gap: 2px;
+}
+
+.hourCell {
+   aspect-ratio: 1;
+   min-height: 18px;
+   border-radius: 3px;
+   cursor: pointer;
+   transition: all 0.15s;
+}
+
+.hourCell:hover {
+   transform: scale(1.15);
+   z-index: 1;
+}
+
+.hourLabels {
+   display: grid;
+   grid-template-columns: repeat(24, 1fr);
+   gap: 2px;
+   margin-top: 3px;
+}
+
+.hourLabel {
+   font-size: 9px;
+   color: var(--ant-color-text-quaternary);
+   text-align: center;
+   white-space: nowrap;
+   overflow: visible;
+}
+
+.densityLegend {
+   font-size: 10px;
+   color: var(--ant-color-text-quaternary);
+   margin-top: 8px;
+   text-align: center;
+}
+
+/* ── Sessions section ── */
+
+.sessionsGrid {
+   display: grid;
+   gap: 16px;
+}
+
+.sessionsGridFull {
+   composes: sessionsGrid;
+   grid-template-columns: 1fr;
+}
+
+.sessionsGridSplit {
+   composes: sessionsGrid;
+   grid-template-columns: 1fr 1fr;
+}
+
+/* ── Session list ── */
+
+.sessionItem {
+   padding: 10px 14px;
+   border-radius: 6px;
+   cursor: pointer;
+   transition: background 0.15s;
+   border: 1px solid transparent;
+}
+
+.sessionItem:hover {
+   background: var(--ant-color-fill-secondary, #1f1f1f);
+}
+
+.sessionItemSelected {
+   composes: sessionItem;
+   background: rgba(59, 130, 246, 0.06);
+   border-color: rgba(59, 130, 246, 0.2);
+}
+
+.sessionItemSelected:hover {
+   background: rgba(59, 130, 246, 0.1);
+}
+
+.sessionName {
+   font-size: 13px;
+   font-weight: 500;
+   color: var(--ant-color-text);
+   overflow: hidden;
+   text-overflow: ellipsis;
+   white-space: nowrap;
+   max-width: 60%;
+}
+
+.sessionValue {
+   font-family: 'SF Mono', 'Menlo', 'Monaco', 'Cascadia Code', monospace;
+   font-size: 13px;
+   font-weight: 600;
+   color: var(--ant-color-text);
+}
+
+.sessionTags {
+   display: flex;
+   gap: 4px;
+   flex-wrap: wrap;
+   margin-top: 4px;
+}
+
+/* ── Session detail panel ── */
+
+.detailPanel {
+   border-radius: 8px;
+   background: var(--ant-color-bg-container, #1a1a1a);
+   border: 1px solid var(--ant-color-border-secondary, #2a2a2a);
+   overflow: hidden;
+}
+
+.detailHeader {
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+   padding: 14px 16px;
+   border-bottom: 1px solid var(--ant-color-border-secondary, #222);
+}
+
+.detailTitle {
+   font-size: 14px;
+   font-weight: 600;
+   color: var(--ant-color-text);
+   overflow: hidden;
+   text-overflow: ellipsis;
+   white-space: nowrap;
+   max-width: 75%;
+}
+
+.detailHint {
+   font-size: 11px;
+   color: var(--ant-color-text-quaternary);
+   flex-shrink: 0;
+}
+
+.detailBody {
+   padding: 16px;
+}
+
+.detailStatRow {
+   display: grid;
+   grid-template-columns: repeat(4, 1fr);
+   gap: 8px;
+   margin-bottom: 16px;
+}
+
+.detailStatBox {
+   position: relative;
+   padding: 10px 12px;
+   border-radius: 6px;
+   background: var(--ant-color-fill-quaternary, #141414);
+   border: 1px solid var(--ant-color-border-secondary, #2a2a2a);
+   text-align: center;
+   overflow: hidden;
+}
+
+.detailStatBox::before {
+   content: '';
+   position: absolute;
+   top: 0;
+   left: 0;
+   right: 0;
+   height: 2px;
+}
+
+.detailStatBoxBlue::before {
+   background: #3b82f6;
+}
+
+.detailStatBoxGreen::before {
+   background: #22c55e;
+}
+
+.detailStatBoxAmber::before {
+   background: #f59e0b;
+}
+
+.detailStatBoxPurple::before {
+   background: #a855f7;
+}
+
+.detailStatBoxRed::before {
+   background: #ef4444;
+}
+
+.detailStatLabel {
+   font-size: 10px;
+   color: var(--ant-color-text-quaternary);
+   text-transform: uppercase;
+   letter-spacing: 0.3px;
+   margin-bottom: 4px;
+}
+
+.detailStatValue {
+   font-family: 'SF Mono', 'Menlo', 'Monaco', 'Cascadia Code', monospace;
+   font-size: 18px;
+   font-weight: 600;
+   color: var(--ant-color-text);
+   line-height: 1.2;
+}
+
+.detailStatSub {
+   font-size: 10px;
+   color: var(--ant-color-text-quaternary);
+   margin-top: 2px;
+}
+
+/* ── Detail tags ── */
+
+.detailTags {
+   display: flex;
+   gap: 4px;
+   flex-wrap: wrap;
+   margin-bottom: 16px;
+   padding-bottom: 14px;
+   border-bottom: 1px solid var(--ant-color-border-secondary, #222);
+}
+
+/* ── Detail sections (tools, models) ── */
+
+.detailSection {
+   margin-bottom: 14px;
+   padding-bottom: 14px;
+   border-bottom: 1px solid var(--ant-color-border-secondary, #222);
+}
+
+.detailSection:last-of-type {
+   border-bottom: none;
+}
+
+.detailSectionLabel {
+   font-size: 10px;
+   font-weight: 500;
+   color: var(--ant-color-text-quaternary);
+   text-transform: uppercase;
+   letter-spacing: 0.3px;
+   margin-bottom: 6px;
+}
+
+.detailToolRow {
+   position: relative;
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+   padding: 5px 8px;
+   border-radius: 4px;
+   font-size: 12px;
+   overflow: hidden;
+}
+
+.detailToolBar {
+   position: absolute;
+   left: 0;
+   top: 0;
+   bottom: 0;
+   border-radius: 4px;
+   background: rgba(59, 130, 246, 0.06);
+   transition: width 0.3s ease;
+   pointer-events: none;
+}
+
+.detailToolName {
+   position: relative;
+   font-family: 'SF Mono', 'Menlo', 'Monaco', 'Cascadia Code', monospace;
+   font-size: 12px;
+   color: var(--ant-color-text);
+   overflow: hidden;
+   text-overflow: ellipsis;
+   white-space: nowrap;
+   max-width: 65%;
+}
+
+.detailToolCount {
+   position: relative;
+   font-family: 'SF Mono', 'Menlo', 'Monaco', 'Cascadia Code', monospace;
+   font-size: 12px;
+   font-weight: 500;
+   color: var(--ant-color-text-secondary);
+   white-space: nowrap;
+}
+
+.detailModelRow {
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+   padding: 5px 8px;
+   border-radius: 4px;
+   font-size: 12px;
+}
+
+.detailModelRow:hover {
+   background: var(--ant-color-fill-quaternary, #1a1a1a);
+}
+
+.detailModelName {
+   font-size: 12px;
+   color: var(--ant-color-text);
+   overflow: hidden;
+   text-overflow: ellipsis;
+   white-space: nowrap;
+   max-width: 50%;
+}
+
+.detailModelMeta {
+   font-family: 'SF Mono', 'Menlo', 'Monaco', 'Cascadia Code', monospace;
+   font-size: 11px;
+   color: var(--ant-color-text-tertiary);
+   white-space: nowrap;
+}
+
+/* ── Chart section in detail ── */
+
+.detailChartSection {
+   padding-top: 14px;
+   border-top: 1px solid var(--ant-color-border-secondary, #222);
+   margin-bottom: 14px;
+}
+
+/* ── Log entry ── */
+
+.logEntry {
+   padding: 8px 0;
+   border-bottom: 1px solid var(--ant-color-border-secondary, #1f1f1f);
+}
+
+.logEntry:last-child {
+   border-bottom: none;
+}
+
+.logHeader {
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+   margin-bottom: 4px;
+}
+
+.logTimestamp {
+   font-family: 'SF Mono', 'Menlo', 'Monaco', 'Cascadia Code', monospace;
+   font-size: 11px;
+   color: var(--ant-color-text-quaternary);
+}
+
+.logContent {
+   font-size: 13px;
+   line-height: 1.5;
+   color: var(--ant-color-text-secondary);
+}

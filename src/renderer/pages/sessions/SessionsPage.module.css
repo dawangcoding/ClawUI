@@ -1,0 +1,457 @@
+/* ── 会话管理页面样式 ── */
+
+.pageContainer {
+   display: flex;
+   flex-direction: column;
+   gap: 16px;
+}
+
+/* ── 页面头部 ── */
+
+.pageHeader {
+   display: flex;
+   align-items: flex-start;
+   justify-content: space-between;
+}
+
+.pageTitle {
+   font-size: 16px;
+   font-weight: 600;
+   color: var(--ant-color-text);
+   margin: 0 !important;
+}
+
+.subtitle {
+   font-size: 13px;
+   color: var(--ant-color-text-secondary);
+   margin-top: 2px;
+}
+
+/* ── 工具栏 ── */
+
+.toolbar {
+   display: flex;
+   align-items: center;
+   gap: 10px;
+   flex-wrap: wrap;
+}
+
+.filterGroup {
+   display: flex;
+   align-items: center;
+   gap: 6px;
+   font-size: 12px;
+   color: var(--ant-color-text-secondary);
+   padding: 4px 10px;
+   border-radius: 6px;
+   background: var(--ant-color-fill-quaternary, #1a1a1a);
+}
+
+.filterLabel {
+   color: var(--ant-color-text-tertiary);
+   white-space: nowrap;
+   font-size: 12px;
+}
+
+.filterInput {
+   width: 52px;
+   background: transparent !important;
+   border: none !important;
+   border-bottom: 1px solid var(--ant-color-border-secondary, #303030) !important;
+   border-radius: 0 !important;
+   box-shadow: none !important;
+   padding: 0 2px !important;
+   font-size: 12px;
+   color: var(--ant-color-text) !important;
+   height: 22px !important;
+   line-height: 22px;
+   text-align: center;
+}
+
+.filterInput:focus {
+   border-bottom-color: var(--ant-color-primary, #1677ff) !important;
+}
+
+.filterCheckbox {
+   font-size: 12px;
+}
+
+.filterCheckbox :global(.ant-checkbox) + span {
+   font-size: 12px;
+   padding-inline-start: 4px;
+}
+
+.searchInput {
+   flex: 1;
+   min-width: 180px;
+   max-width: 360px;
+}
+
+/* ── 摘要条 ── */
+
+.summaryBar {
+   display: flex;
+   align-items: center;
+   gap: 8px;
+   font-size: 12px;
+   color: var(--ant-color-text-secondary);
+   padding: 6px 12px;
+   background: var(--ant-color-fill-quaternary, #1a1a1a);
+   border-radius: 6px;
+}
+
+.summaryDot {
+   display: inline-block;
+   width: 7px;
+   height: 7px;
+   border-radius: 50%;
+   background: #1677ff;
+   box-shadow: 0 0 4px rgba(22, 119, 255, 0.4);
+   flex-shrink: 0;
+}
+
+.summarySep {
+   opacity: 0.35;
+}
+
+/* ── 列表容器 ── */
+
+.listContainer {
+   border: 1px solid var(--ant-color-border, #303030);
+   border-radius: 8px;
+   background: var(--ant-color-bg-container, #1a1a1a);
+   overflow: hidden;
+   container-type: inline-size;
+}
+
+/* ── 列表头 ── */
+
+.listHeader {
+   display: grid;
+   grid-template-columns: minmax(180px, 2fr) 120px 80px 90px 100px 44px;
+   gap: 12px;
+   align-items: center;
+   padding: 8px 16px;
+   font-size: 12px;
+   font-weight: 500;
+   color: var(--ant-color-text-tertiary);
+   border-bottom: 1px solid var(--ant-color-border-secondary, #2a2a2a);
+   background: var(--ant-color-fill-quaternary, #141414);
+}
+
+/* ── 列表行 ── */
+
+.listRow {
+   display: grid;
+   grid-template-columns: minmax(180px, 2fr) 120px 80px 90px 100px 44px;
+   gap: 12px;
+   align-items: center;
+   padding: 10px 16px;
+   border-bottom: 1px solid var(--ant-color-border-secondary, #2a2a2a);
+   font-size: 12px;
+   transition: background 0.1s;
+   cursor: pointer;
+}
+
+.listRow:last-child {
+   border-bottom: none;
+}
+
+.listRow:hover {
+   background: var(--ant-color-fill-secondary, #1f1f1f);
+}
+
+.listRowExpanded {
+   composes: listRow;
+   background: var(--ant-color-fill-quaternary, #171717);
+   border-bottom-color: transparent;
+}
+
+.listRowExpanded:hover {
+   background: var(--ant-color-fill-quaternary, #171717);
+}
+
+/* ── 单元格样式 ── */
+
+.keyCell {
+   min-width: 0;
+   overflow: hidden;
+}
+
+.keyText {
+   font-size: 12px;
+   font-family: 'SF Mono', 'Menlo', 'Monaco', monospace;
+   color: var(--ant-color-text);
+   white-space: nowrap;
+   overflow: hidden;
+   text-overflow: ellipsis;
+   display: block;
+}
+
+.displayName {
+   font-size: 11px;
+   color: var(--ant-color-text-quaternary);
+   margin-top: 1px;
+   white-space: nowrap;
+   overflow: hidden;
+   text-overflow: ellipsis;
+}
+
+.labelInput {
+   width: 100%;
+}
+
+.labelInput :global(.ant-input) {
+   font-size: 12px;
+   background: transparent !important;
+   border: none !important;
+   border-bottom: 1px dashed var(--ant-color-border-secondary, #303030) !important;
+   border-radius: 0 !important;
+   box-shadow: none !important;
+   padding: 0 2px !important;
+   height: 24px !important;
+   color: var(--ant-color-text-secondary) !important;
+}
+
+.labelInput :global(.ant-input):focus {
+   border-bottom-style: solid !important;
+   border-bottom-color: var(--ant-color-primary, #1677ff) !important;
+}
+
+.labelInput :global(.ant-input)::placeholder {
+   color: var(--ant-color-text-quaternary) !important;
+   font-style: italic;
+}
+
+.kindBadge {
+   display: inline-flex;
+   align-items: center;
+   justify-content: center;
+   padding: 2px 8px;
+   border-radius: 4px;
+   font-size: 11px;
+   font-weight: 500;
+   letter-spacing: 0.3px;
+   white-space: nowrap;
+}
+
+.kindDirect {
+   composes: kindBadge;
+   color: #1677ff;
+   background: rgba(22, 119, 255, 0.12);
+}
+
+.kindGroup {
+   composes: kindBadge;
+   color: #52c41a;
+   background: rgba(82, 196, 26, 0.12);
+}
+
+.kindGlobal {
+   composes: kindBadge;
+   color: var(--ant-color-text-tertiary);
+   background: var(--ant-color-fill-secondary, #1f1f1f);
+}
+
+.kindUnknown {
+   composes: kindBadge;
+   color: var(--ant-color-text-quaternary);
+   background: var(--ant-color-fill-quaternary, #1a1a1a);
+}
+
+.timeText {
+   font-size: 12px;
+   color: var(--ant-color-text-secondary);
+   white-space: nowrap;
+}
+
+.tokenText {
+   font-size: 12px;
+   font-family: 'SF Mono', 'Menlo', 'Monaco', monospace;
+   color: var(--ant-color-text-secondary);
+   white-space: nowrap;
+}
+
+.actionsCell {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+}
+
+/* ── 可排序列头 ── */
+
+.sortableHeader {
+   display: inline-flex;
+   align-items: center;
+   gap: 2px;
+   cursor: pointer;
+   user-select: none;
+   white-space: nowrap;
+   transition: color 0.15s;
+}
+
+.sortableHeader:hover {
+   color: var(--ant-color-text-secondary);
+}
+
+.sortArrow {
+   font-size: 10px;
+   opacity: 0.3;
+   transition: opacity 0.15s;
+}
+
+.sortArrowActive {
+   composes: sortArrow;
+   opacity: 1;
+   color: var(--ant-color-primary, #1677ff);
+}
+
+/* ── 展开详情区域 ── */
+
+.expandedPanel {
+   display: grid;
+   grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+   gap: 10px;
+   padding: 8px 16px 14px 16px;
+   border-bottom: 1px solid var(--ant-color-border-secondary, #2a2a2a);
+   background: var(--ant-color-fill-quaternary, #171717);
+   animation: slideDown 0.15s ease-out;
+}
+
+@keyframes slideDown {
+   from {
+      opacity: 0;
+      transform: translateY(-4px);
+   }
+   to {
+      opacity: 1;
+      transform: translateY(0);
+   }
+}
+
+.paramItem {
+   display: flex;
+   flex-direction: column;
+   gap: 3px;
+}
+
+.paramLabel {
+   font-size: 11px;
+   color: var(--ant-color-text-quaternary);
+   font-weight: 500;
+   letter-spacing: 0.3px;
+}
+
+.paramSelect :global(.ant-select) {
+   width: 100% !important;
+}
+
+.paramSelect :global(.ant-select-selector) {
+   background: var(--ant-color-fill-secondary, #1f1f1f) !important;
+   border: 1px solid var(--ant-color-border-secondary, #303030) !important;
+   border-radius: 4px !important;
+   font-size: 12px !important;
+   height: 28px !important;
+}
+
+/* ── 分页 ── */
+
+.pagination {
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+   padding: 10px 16px;
+   font-size: 12px;
+   color: var(--ant-color-text-tertiary);
+   border-top: 1px solid var(--ant-color-border-secondary, #2a2a2a);
+   background: var(--ant-color-fill-quaternary, #141414);
+}
+
+.paginationInfo {
+   font-size: 12px;
+   color: var(--ant-color-text-tertiary);
+}
+
+.paginationControls {
+   display: flex;
+   align-items: center;
+   gap: 6px;
+}
+
+.pageButton {
+   min-width: 28px;
+   height: 28px;
+   display: inline-flex;
+   align-items: center;
+   justify-content: center;
+   border-radius: 4px;
+   border: 1px solid var(--ant-color-border-secondary, #303030);
+   background: transparent;
+   color: var(--ant-color-text-secondary);
+   font-size: 12px;
+   cursor: pointer;
+   transition: all 0.15s;
+}
+
+.pageButton:hover:not(:disabled) {
+   border-color: var(--ant-color-primary, #1677ff);
+   color: var(--ant-color-primary, #1677ff);
+}
+
+.pageButton:disabled {
+   opacity: 0.3;
+   cursor: not-allowed;
+}
+
+.pageButtonActive {
+   composes: pageButton;
+   border-color: var(--ant-color-primary, #1677ff);
+   color: var(--ant-color-primary, #1677ff);
+   background: rgba(22, 119, 255, 0.08);
+}
+
+.pageSizeSelect :global(.ant-select-selector) {
+   font-size: 12px !important;
+   height: 28px !important;
+   background: transparent !important;
+   border-color: var(--ant-color-border-secondary, #303030) !important;
+}
+
+/* ── 加载/空状态 ── */
+
+.emptyList {
+   padding: 48px;
+   text-align: center;
+   color: var(--ant-color-text-secondary);
+   font-size: 13px;
+}
+
+.loadingOverlay {
+   padding: 48px;
+   text-align: center;
+}
+
+/* ── 错误提示 ── */
+
+.errorBanner {
+   margin: 0;
+}
+
+/* ── 响应式 ── */
+
+@container (max-width: 640px) {
+   .listHeader,
+   .listRow,
+   .listRowExpanded {
+      grid-template-columns: minmax(140px, 2fr) 80px 90px 44px;
+   }
+
+   .labelCol,
+   .tokenCol {
+      display: none;
+   }
+
+   .expandedPanel {
+      grid-template-columns: repeat(2, 1fr);
+   }
+}

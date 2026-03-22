@@ -1,0 +1,266 @@
+/* ── AI与代理页面样式 — Precision Tech Console ── */
+
+/* ── CSS 自定义属性 ── */
+.pageContainer {
+   --cfg-accent: #00b8ff;
+   --cfg-accent-dim: rgba(0, 184, 255, 0.12);
+   --cfg-accent-glow: rgba(0, 184, 255, 0.25);
+   --cfg-accent-subtle: rgba(0, 184, 255, 0.06);
+   --cfg-surface: rgba(255, 255, 255, 0.03);
+   --cfg-surface-hover: rgba(255, 255, 255, 0.06);
+   --cfg-surface-active: rgba(255, 255, 255, 0.08);
+   --cfg-border: rgba(255, 255, 255, 0.06);
+   --cfg-border-accent: rgba(0, 184, 255, 0.2);
+   --cfg-radius: 10px;
+   --cfg-radius-sm: 6px;
+   --cfg-shadow: 0 1px 3px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.03);
+   --cfg-font-mono: 'SF Mono', 'Cascadia Code', 'Fira Code', 'JetBrains Mono', monospace;
+   --cfg-transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+   --cfg-success: #00e68a;
+   --cfg-warning: #ffb800;
+   --cfg-danger: #ff4d6a;
+
+   display: flex;
+   flex-direction: column;
+   height: 100%;
+   gap: 0;
+   position: relative;
+}
+
+/* ── 顶部装饰线 ── */
+.pageContainer::before {
+   content: '';
+   position: absolute;
+   top: 0;
+   left: 0;
+   right: 0;
+   height: 1px;
+   background: linear-gradient(
+      90deg,
+      transparent 0%,
+      var(--cfg-accent-dim) 20%,
+      var(--cfg-accent) 50%,
+      var(--cfg-accent-dim) 80%,
+      transparent 100%
+   );
+   opacity: 0.6;
+   z-index: 1;
+}
+
+/* ── 页面标题 ── */
+
+.pageHeader {
+   flex-shrink: 0;
+   padding: 16px 16px 14px;
+   background: var(--cfg-surface);
+   border-bottom: 1px solid var(--cfg-border);
+   backdrop-filter: blur(12px);
+   -webkit-backdrop-filter: blur(12px);
+}
+
+.pageTitle {
+   margin: 0;
+   font-size: 16px;
+   font-weight: 700;
+   letter-spacing: -0.2px;
+   line-height: 1.3;
+   display: flex;
+   align-items: center;
+   gap: 10px;
+}
+
+.pageTitle::before {
+   content: '';
+   width: 3px;
+   height: 16px;
+   border-radius: 2px;
+   background: linear-gradient(180deg, var(--cfg-accent), rgba(0, 184, 255, 0.3));
+   flex-shrink: 0;
+}
+
+.pageDescription {
+   margin: 6px 0 0;
+   font-size: 12px;
+   font-family: var(--cfg-font-mono);
+   letter-spacing: 0.2px;
+   color: var(--ant-color-text-quaternary, #666);
+   padding-left: 13px;
+}
+
+/* ── Actions Bar ── */
+
+.actionsBar {
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+   flex-shrink: 0;
+   padding: 10px 16px;
+   background: var(--cfg-surface);
+   border-bottom: 1px solid var(--cfg-border);
+   backdrop-filter: blur(12px);
+   -webkit-backdrop-filter: blur(12px);
+   position: relative;
+}
+
+.actionsLeft {
+   display: flex;
+   align-items: center;
+   gap: 10px;
+}
+
+.actionsRight {
+   display: flex;
+   align-items: center;
+   gap: 6px;
+}
+
+/* 操作按钮统一增强 */
+.actionsRight :global(.ant-btn) {
+   border-radius: var(--cfg-radius-sm);
+   font-size: 12px;
+   font-weight: 500;
+   letter-spacing: 0.2px;
+   border-color: var(--cfg-border);
+   transition: all var(--cfg-transition);
+}
+
+.actionsRight :global(.ant-btn):hover {
+   border-color: var(--cfg-accent);
+   color: var(--cfg-accent);
+   box-shadow: 0 0 0 1px var(--cfg-accent-dim);
+}
+
+.actionsRight :global(.ant-btn-primary) {
+   background: linear-gradient(135deg, var(--cfg-accent), #0090cc);
+   border-color: transparent;
+   box-shadow: 0 2px 8px rgba(0, 184, 255, 0.25);
+}
+
+.actionsRight :global(.ant-btn-primary):hover {
+   background: linear-gradient(135deg, #33c9ff, #00a3e6);
+   border-color: transparent;
+   color: #fff;
+   box-shadow: 0 4px 16px rgba(0, 184, 255, 0.35);
+}
+
+/* Radio.Group 模式切换器 */
+.actionsRight :global(.ant-radio-group) {
+   border-radius: var(--cfg-radius-sm);
+   overflow: hidden;
+}
+
+.actionsRight :global(.ant-radio-button-wrapper) {
+   font-size: 12px;
+   font-weight: 500;
+   letter-spacing: 0.3px;
+   border-color: var(--cfg-border);
+   background: transparent;
+}
+
+.actionsRight :global(.ant-radio-button-wrapper-checked) {
+   background: var(--cfg-accent) !important;
+   border-color: var(--cfg-accent) !important;
+   box-shadow: 0 0 12px var(--cfg-accent-glow);
+}
+
+/* ── 变更徽章 ── */
+
+.changesBadge {
+   display: inline-flex;
+   align-items: center;
+   gap: 6px;
+   padding: 3px 10px;
+   font-size: 11px;
+   font-weight: 600;
+   letter-spacing: 0.3px;
+   border-radius: 20px;
+   background: rgba(255, 184, 0, 0.1);
+   color: var(--cfg-warning);
+   border: 1px solid rgba(255, 184, 0, 0.2);
+   animation: badgePulse 2s ease-in-out infinite;
+}
+
+.changesBadge::before {
+   content: '';
+   width: 6px;
+   height: 6px;
+   border-radius: 50%;
+   background: var(--cfg-warning);
+   box-shadow: 0 0 6px var(--cfg-warning);
+}
+
+@keyframes badgePulse {
+   0%, 100% { opacity: 1; }
+   50% { opacity: 0.75; }
+}
+
+.noChanges {
+   font-size: 11px;
+   font-weight: 500;
+   letter-spacing: 0.3px;
+   color: var(--ant-color-text-quaternary, #555);
+   display: inline-flex;
+   align-items: center;
+   gap: 6px;
+}
+
+.noChanges::before {
+   content: '';
+   width: 6px;
+   height: 6px;
+   border-radius: 50%;
+   background: var(--cfg-success);
+   box-shadow: 0 0 6px rgba(0, 230, 138, 0.4);
+}
+
+/* ── Content Area ── */
+
+.contentArea {
+   flex: 1;
+   overflow: auto;
+   min-height: 0;
+   padding: 16px;
+}
+
+/* 滚动条美化 */
+.contentArea::-webkit-scrollbar {
+   width: 6px;
+}
+
+.contentArea::-webkit-scrollbar-track {
+   background: transparent;
+}
+
+.contentArea::-webkit-scrollbar-thumb {
+   background: rgba(255, 255, 255, 0.1);
+   border-radius: 3px;
+}
+
+.contentArea::-webkit-scrollbar-thumb:hover {
+   background: rgba(255, 255, 255, 0.2);
+}
+
+/* ── Alert 增强 ── */
+
+.pageContainer :global(.ant-alert) {
+   margin: 0 16px;
+   border-radius: var(--cfg-radius-sm);
+   border: none;
+   font-size: 13px;
+}
+
+.pageContainer :global(.ant-alert-error) {
+   background: rgba(255, 77, 106, 0.08);
+   border: 1px solid rgba(255, 77, 106, 0.2);
+}
+
+.pageContainer :global(.ant-alert-warning) {
+   background: rgba(255, 184, 0, 0.06);
+   border: 1px solid rgba(255, 184, 0, 0.15);
+}
+
+/* ── Spin 增强 ── */
+
+.contentArea :global(.ant-spin-dot-item) {
+   background-color: var(--cfg-accent) !important;
+}

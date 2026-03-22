@@ -1,0 +1,18 @@
+/* ── 基础设施页面专属样式 ── */
+
+.pageHeader {
+   margin-bottom: 12px;
+}
+
+.pageTitle {
+   font-size: 20px;
+   font-weight: 600;
+   margin: 0;
+   line-height: 1.4;
+}
+
+.pageSubtitle {
+   font-size: 13px;
+   color: var(--ant-color-text-secondary, #666);
+   margin: 4px 0 0;
+}

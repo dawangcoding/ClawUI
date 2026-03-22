@@ -1,0 +1,68 @@
+.grid {
+   display: grid;
+   grid-template-columns: 1fr 1fr;
+   gap: 16px;
+}
+
+.fullWidth {
+   margin-top: 16px;
+}
+
+.sectionLabel {
+   font-size: 13px;
+   color: var(--ant-color-text-secondary);
+   margin-bottom: 4px;
+   margin-top: 12px;
+}
+
+.sectionLabel:first-child {
+   margin-top: 0;
+}
+
+.codeWrap {
+   max-height: 400px;
+   overflow: auto;
+   margin-top: 4px;
+}
+
+.subtitle {
+   font-size: 13px;
+   color: var(--ant-color-text-secondary);
+   margin-bottom: 0;
+}
+
+.eventItem {
+   display: flex;
+   gap: 8px;
+   align-items: baseline;
+   padding: 6px 0;
+   border-bottom: 1px solid var(--ant-color-border-secondary, #f0f0f0);
+}
+
+.eventTime {
+   font-size: 11px;
+   flex-shrink: 0;
+   font-family: monospace;
+   color: var(--ant-color-text-secondary);
+}
+
+.eventPayload {
+   font-size: 11px;
+   flex: 1;
+   min-width: 0;
+   font-family: monospace;
+   color: var(--ant-color-text-secondary);
+   overflow: hidden;
+   text-overflow: ellipsis;
+   white-space: nowrap;
+   cursor: pointer;
+}
+
+.eventPayloadExpanded {
+   margin-top: 8px;
+}
+
+.eventList {
+   max-height: 500px;
+   overflow-y: auto;
+}

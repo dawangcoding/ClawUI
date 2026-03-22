@@ -1,0 +1,213 @@
+/* ── 页面头部 ── */
+.pageHeader {
+   display: flex;
+   justify-content: space-between;
+   align-items: flex-start;
+   margin-bottom: 16px;
+}
+
+.subtitle {
+   font-size: 13px;
+   color: var(--ant-color-text-secondary);
+   margin-top: 2px;
+}
+
+/* ── 过滤行 ── */
+.filterRow {
+   display: flex;
+   align-items: center;
+   gap: 12px;
+   flex-wrap: wrap;
+   margin-top: 14px;
+}
+
+.filterSearch {
+   flex: 1;
+   min-width: 180px;
+   max-width: 360px;
+}
+
+/* ── 级别芯片行 ── */
+.chipRow {
+   display: flex;
+   flex-wrap: wrap;
+   gap: 8px;
+   margin-top: 12px;
+}
+
+.levelChip {
+   display: inline-flex;
+   align-items: center;
+   gap: 6px;
+   font-size: 12px;
+   font-weight: 500;
+   border: 1px solid;
+   border-radius: 16px;
+   padding: 3px 12px;
+   cursor: pointer;
+   user-select: none;
+   transition: all 0.15s;
+}
+
+.levelChipInactive {
+   opacity: 0.35;
+   background: transparent;
+}
+
+/* trace / debug */
+.levelTrace {
+   color: var(--ant-color-text-secondary);
+   border-color: var(--ant-color-border);
+}
+.levelTrace.levelChipActive {
+   background: rgba(140, 140, 140, 0.1);
+}
+
+.levelDebug {
+   color: var(--ant-color-text-secondary);
+   border-color: var(--ant-color-border);
+}
+.levelDebug.levelChipActive {
+   background: rgba(140, 140, 140, 0.1);
+}
+
+/* info */
+.levelInfo {
+   color: #1677ff;
+   border-color: rgba(22, 119, 255, 0.35);
+}
+.levelInfo.levelChipActive {
+   background: rgba(22, 119, 255, 0.1);
+}
+
+/* warn */
+.levelWarn {
+   color: #faad14;
+   border-color: rgba(250, 173, 20, 0.35);
+}
+.levelWarn.levelChipActive {
+   background: rgba(250, 173, 20, 0.1);
+}
+
+/* error */
+.levelError {
+   color: #ff4d4f;
+   border-color: rgba(255, 77, 79, 0.35);
+}
+.levelError.levelChipActive {
+   background: rgba(255, 77, 79, 0.1);
+}
+
+/* fatal */
+.levelFatal {
+   color: #ff4d4f;
+   border-color: rgba(255, 77, 79, 0.35);
+}
+.levelFatal.levelChipActive {
+   background: rgba(255, 77, 79, 0.1);
+}
+
+/* ── 信息行 ── */
+.filePath {
+   font-size: 12px;
+   color: var(--ant-color-text-secondary);
+   margin-top: 10px;
+   font-family: monospace;
+}
+
+.truncationNotice {
+   margin-top: 10px;
+   padding: 8px 12px;
+   border-radius: 6px;
+   background: var(--ant-color-warning-bg);
+   border: 1px solid var(--ant-color-warning-border);
+   font-size: 13px;
+   color: var(--ant-color-warning-text);
+}
+
+/* ── 日志流容器 ── */
+.logStream {
+   flex: 1;
+   overflow: auto;
+   border: 1px solid var(--ant-color-border);
+   border-radius: 6px;
+   margin-top: 12px;
+   background: var(--ant-color-bg-container);
+   container-type: inline-size;
+}
+
+/* ── 日志行 ── */
+.logRow {
+   display: grid;
+   grid-template-columns: 90px 70px minmax(140px, 200px) minmax(0, 1fr);
+   gap: 12px;
+   align-items: start;
+   padding: 6px 12px;
+   border-bottom: 1px solid var(--ant-color-border-secondary);
+   font-size: 12px;
+   transition: background 0.1s;
+}
+
+.logRow:hover {
+   background: var(--ant-color-fill-secondary);
+}
+
+.logTime {
+   color: var(--ant-color-text-secondary);
+   font-family: monospace;
+   white-space: nowrap;
+}
+
+.logLevel {
+   font-size: 11px;
+   font-weight: 500;
+   font-family: monospace;
+}
+
+.logLevelTrace,
+.logLevelDebug {
+   color: var(--ant-color-text-secondary);
+}
+
+.logLevelInfo {
+   color: #1677ff;
+}
+
+.logLevelWarn {
+   color: #faad14;
+}
+
+.logLevelError,
+.logLevelFatal {
+   color: #ff4d4f;
+}
+
+.logSubsystem {
+   color: var(--ant-color-text-secondary);
+   font-family: monospace;
+   overflow: hidden;
+   text-overflow: ellipsis;
+   white-space: nowrap;
+}
+
+.logMessage {
+   white-space: pre-wrap;
+   word-break: break-word;
+   font-family: monospace;
+}
+
+.emptyStream {
+   padding: 24px;
+   text-align: center;
+   color: var(--ant-color-text-secondary);
+}
+
+/* ── 响应式 ── */
+@container (max-width: 620px) {
+   .logRow {
+      grid-template-columns: 70px 60px minmax(0, 1fr);
+   }
+   .logSubsystem {
+      display: none;
+   }
+}

@@ -1,0 +1,24 @@
+# Dependencies
+node_modules
+
+# Build output
+dist
+release
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea
+.vscode
+*.swp
+*.swo
+
+# Environment
+.env
+.env.*
+!.env.example
