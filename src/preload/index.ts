@@ -12,11 +12,23 @@ const IPC = {
    GATEWAY_SAVE_CONFIG: 'gateway:save-config',
    GATEWAY_EVENT: 'gateway:event',
    GATEWAY_STATE_CHANGED: 'gateway:state-changed',
+   GATEWAY_GET_MODE: 'gateway:get-mode',
+   GATEWAY_SET_MODE: 'gateway:set-mode',
+   GATEWAY_BUILTIN_STATUS: 'gateway:builtin-status',
+   GATEWAY_BUILTIN_START: 'gateway:builtin-start',
+   GATEWAY_BUILTIN_STOP: 'gateway:builtin-stop',
+   GATEWAY_BUILTIN_RESTART: 'gateway:builtin-restart',
+   GATEWAY_CHECK_BUNDLED: 'gateway:check-bundled',
+   GATEWAY_BUILTIN_STATUS_CHANGED: 'gateway:builtin-status-changed',
    APP_GET_INFO: 'app:get-info',
    SPEECH_TRANSCRIBE: 'speech:transcribe',
 } as const
 
-const EVENT_CHANNELS = [IPC.GATEWAY_EVENT, IPC.GATEWAY_STATE_CHANGED] as const
+const EVENT_CHANNELS = [
+   IPC.GATEWAY_EVENT,
+   IPC.GATEWAY_STATE_CHANGED,
+   IPC.GATEWAY_BUILTIN_STATUS_CHANGED,
+] as const
 
 log.log('Initializing preload script...')
 
@@ -102,6 +114,53 @@ contextBridge.exposeInMainWorld('clawAPI', {
          for (const channel of EVENT_CHANNELS) {
             ipcRenderer.removeAllListeners(channel)
          }
+      },
+
+      // 内置 Gateway 管理
+      checkBundled: () => {
+         log.log('gateway.checkBundled() called')
+         return ipcRenderer.invoke(IPC.GATEWAY_CHECK_BUNDLED) as Promise<boolean>
+      },
+      getMode: () => {
+         log.log('gateway.getMode() called')
+         return ipcRenderer.invoke(IPC.GATEWAY_GET_MODE) as Promise<'builtin' | 'external'>
+      },
+      setMode: (mode: 'builtin' | 'external') => {
+         log.log('gateway.setMode() called, mode=%s', mode)
+         return ipcRenderer.invoke(IPC.GATEWAY_SET_MODE, mode) as Promise<void>
+      },
+      getBuiltinStatus: () => {
+         log.log('gateway.getBuiltinStatus() called')
+         return ipcRenderer.invoke(IPC.GATEWAY_BUILTIN_STATUS) as Promise<
+            'idle' | 'starting' | 'running' | 'stopping' | 'crashed'
+         >
+      },
+      startBuiltin: () => {
+         log.log('gateway.startBuiltin() called')
+         return ipcRenderer.invoke(IPC.GATEWAY_BUILTIN_START) as Promise<{
+            success: boolean
+            error?: string
+         }>
+      },
+      stopBuiltin: () => {
+         log.log('gateway.stopBuiltin() called')
+         return ipcRenderer.invoke(IPC.GATEWAY_BUILTIN_STOP) as Promise<void>
+      },
+      restartBuiltin: () => {
+         log.log('gateway.restartBuiltin() called')
+         return ipcRenderer.invoke(IPC.GATEWAY_BUILTIN_RESTART) as Promise<{
+            success: boolean
+            error?: string
+         }>
+      },
+      onBuiltinStatusChanged: (
+         callback: (status: 'idle' | 'starting' | 'running' | 'stopping' | 'crashed') => void,
+      ) => {
+         log.log('gateway.onBuiltinStatusChanged() listener registered')
+         ipcRenderer.on(IPC.GATEWAY_BUILTIN_STATUS_CHANGED, (_event, status) => {
+            log.log('builtin gateway status changed:', status)
+            callback(status)
+         })
       },
    },
 

@@ -1,5 +1,8 @@
 // window.clawAPI 全局类型声明
 
+export type GatewayMode = 'builtin' | 'external'
+export type GatewayProcessStatus = 'idle' | 'starting' | 'running' | 'stopping' | 'crashed'
+
 export interface ClawAPI {
    app: {
       getInfo(): Promise<{
@@ -9,7 +12,7 @@ export interface ClawAPI {
       }>
    }
    gateway: {
-      loadConfig(): Promise<{ gatewayUrl: string; token: string } | null>
+      loadConfig(): Promise<{ gatewayUrl: string; token: string; mode?: GatewayMode } | null>
       saveConfig(config: {
          gatewayUrl: string
          token: string
@@ -28,6 +31,16 @@ export interface ClawAPI {
       onEvent(callback: (event: unknown) => void): void
       onStateChanged(callback: (state: string) => void): void
       removeAllListeners(): void
+
+      // 内置 Gateway 管理
+      checkBundled(): Promise<boolean>
+      getMode(): Promise<GatewayMode>
+      setMode(mode: GatewayMode): Promise<void>
+      getBuiltinStatus(): Promise<GatewayProcessStatus>
+      startBuiltin(): Promise<{ success: boolean; error?: string }>
+      stopBuiltin(): Promise<void>
+      restartBuiltin(): Promise<{ success: boolean; error?: string }>
+      onBuiltinStatusChanged(callback: (status: GatewayProcessStatus) => void): void
    }
    speech: {
       transcribe(
