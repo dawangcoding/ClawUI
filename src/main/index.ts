@@ -1,14 +1,18 @@
 import { app, BrowserWindow, shell, Menu } from 'electron'
 import { join } from 'path'
 import type { GatewayClient } from './gateway/client'
+import { GatewayProcessManager } from './gateway/process-manager'
+import { getGatewayMode } from './gateway/config'
 import { registerAllIpcHandlers } from './ipc'
-import { setClientAccessor } from './ipc/gateway-handlers'
+import { setClientAccessor, connectToUrl, disconnectCurrent } from './ipc/gateway-handlers'
+import { setBuiltinGatewayAccessor } from './ipc/builtin-gateway-handlers'
 import { createLogger } from '../shared/logger'
 
 const log = createLogger('Main')
 
 let mainWindow: BrowserWindow | null = null
 let gatewayClient: GatewayClient | null = null
+const processManager = new GatewayProcessManager()
 
 log.log('Initializing main process...')
 
@@ -23,6 +27,20 @@ setClientAccessor(
    (channel, data) => {
       log.debug('sendToRenderer:', channel)
       mainWindow?.webContents.send(channel, data)
+   },
+)
+
+// 设置内置 Gateway 进程管理器访问器
+setBuiltinGatewayAccessor(
+   processManager,
+   (channel, data) => {
+      mainWindow?.webContents.send(channel, data)
+   },
+   (port, token) => {
+      connectToUrl(`ws://127.0.0.1:${port}`, token)
+   },
+   () => {
+      disconnectCurrent()
    },
 )
 
@@ -127,6 +145,20 @@ app.whenReady().then(() => {
    createMenu()
    createWindow()
 
+   // 内置模式自动启动 Gateway 子进程
+   if (getGatewayMode() === 'builtin' && processManager.isAvailable()) {
+      log.log('Builtin mode detected, auto-starting gateway process...')
+      processManager
+         .start()
+         .then(({ port, token }) => {
+            log.log('Builtin gateway auto-started on port %d', port)
+            connectToUrl(`ws://127.0.0.1:${port}`, token)
+         })
+         .catch((err) => {
+            log.error('Builtin gateway auto-start failed:', err)
+         })
+   }
+
    app.on('activate', () => {
       log.log('App activated, windows count:', BrowserWindow.getAllWindows().length)
       if (BrowserWindow.getAllWindows().length === 0) {
@@ -146,4 +178,11 @@ app.on('window-all-closed', () => {
       log.log('Quitting app (non-macOS)')
       app.quit()
    }
+})
+
+app.on('before-quit', () => {
+   log.log('before-quit: stopping builtin gateway process...')
+   processManager.stop().catch((err) => {
+      log.error('Failed to stop builtin gateway on quit:', err)
+   })
 })
