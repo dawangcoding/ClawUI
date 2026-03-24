@@ -129,14 +129,25 @@ export default function ChatInputBar({
    )
 
    // ── Model selection ──
-   const currentModel = sessionInfo?.model ?? ''
+   // currentModel 需要转换为 provider/id 格式以匹配 select 的 value
+   const currentModel = useMemo(() => {
+      if (!sessionInfo?.model) return ''
+      const model = sessionInfo.model
+      const provider = sessionInfo.modelProvider
+      // 如果 model 已经包含 "/"（如 "moonshotai/kimi-k2.5"），直接返回
+      if (model.includes('/')) return model
+      // 否则拼接 provider
+      return provider ? `${provider}/${model}` : model
+   }, [sessionInfo?.model, sessionInfo?.modelProvider])
 
+   // 构建模型选项时拼接 provider/id，参考 OpenClaw UI 的 buildChatModelOption()
    const modelOptions = useMemo(
       () =>
-         models.map((m) => ({
-            value: m.id,
-            label: m.name,
-         })),
+         models.map((m) => {
+            // 拼接成 provider/id 格式，如 "openrouter/moonshotai/kimi-k2.5"
+            const value = m.provider ? `${m.provider}/${m.id}` : m.id
+            return { value, label: m.name }
+         }),
       [models],
    )
 
@@ -157,8 +168,12 @@ export default function ChatInputBar({
             }
             onSessionInfoRefresh()
 
-            // If the target model doesn't support reasoning, reset thinking level
-            const target = models.find((m) => m.id === modelId)
+            // 查找目标模型，判断是否支持 reasoning
+            // modelId 格式为 "provider/id"，需要从 catalog 中匹配
+            const target = models.find((m) => {
+               const catalogValue = m.provider ? `${m.provider}/${m.id}` : m.id
+               return catalogValue === modelId
+            })
             if (target && target.reasoning === false && thinkingLevel !== 'off') {
                await setThinkingLevel('off')
             }
