@@ -20,6 +20,8 @@ const MAX_AUTO_ANSWER_STEPS = 60
 export interface WizardStepOption {
    value: unknown
    label: string
+   /** Human-readable name (e.g., "MoonshotAI: Kimi K2.5"), falls back to label when absent */
+   name?: string
    hint?: string
 }
 

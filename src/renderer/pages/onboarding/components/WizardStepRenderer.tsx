@@ -4,6 +4,24 @@ import type { WizardStep } from '../hooks/useWizardRpc'
 
 const { Title, Paragraph, Text } = Typography
 
+// ── ModelOptionLabel: 显示 provider/name 格式 ──
+function ModelOptionLabel({ label }: { label: string }) {
+   // label 格式: "provider/name" (如 "openrouter/MoonshotAI: Kimi K2.5")
+   const separatorIndex = label.indexOf('/')
+   if (separatorIndex > 0) {
+      const provider = label.slice(0, separatorIndex)
+      const name = label.slice(separatorIndex + 1)
+      return (
+         <span>
+            <Text type="secondary">{provider}</Text>
+            <span style={{ margin: '0 4px', color: '#999' }}>/</span>
+            <Text>{name}</Text>
+         </span>
+      )
+   }
+   return <span>{label}</span>
+}
+
 interface Props {
    step: WizardStep
    loading: boolean
@@ -128,7 +146,7 @@ function SelectRenderer({
             <Space direction="vertical" style={{ width: '100%' }}>
                {step.options?.map((opt) => (
                   <Radio key={String(opt.value)} value={opt.value} style={{ width: '100%' }}>
-                     <span>{opt.label}</span>
+                     <ModelOptionLabel label={opt.label} />
                      {opt.hint && (
                         <Text
                            type="secondary"
@@ -253,7 +271,7 @@ function MultiselectRenderer({
             <Space direction="vertical" style={{ width: '100%' }}>
                {step.options?.map((opt) => (
                   <Checkbox key={String(opt.value)} value={opt.value}>
-                     <span>{opt.label}</span>
+                     <ModelOptionLabel label={opt.label} />
                      {opt.hint && (
                         <Text
                            type="secondary"

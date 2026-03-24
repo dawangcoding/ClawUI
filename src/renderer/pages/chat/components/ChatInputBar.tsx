@@ -21,6 +21,11 @@ import { createLogger } from '../../../../shared/logger'
 
 const log = createLogger('ChatInputBar')
 
+// ── formatModelLabel: 将 provider/modelId 转换为 "provider/name" 格式显示
+function formatModelLabel(provider: string, name: string): string {
+   return `${provider}/${name}`
+}
+
 interface ChatInputBarProps {
    value: string
    onChange: (value: string) => void
@@ -134,19 +139,23 @@ export default function ChatInputBar({
       if (!sessionInfo?.model) return ''
       const model = sessionInfo.model
       const provider = sessionInfo.modelProvider
-      // 如果 model 已经包含 "/"（如 "moonshotai/kimi-k2.5"），直接返回
-      if (model.includes('/')) return model
-      // 否则拼接 provider
-      return provider ? `${provider}/${model}` : model
+      // 如果有 provider，拼接成完整的 provider/model 格式
+      if (provider) {
+         return `${provider}/${model}`
+      }
+      // 否则直接返回 model
+      return model
    }, [sessionInfo?.model, sessionInfo?.modelProvider])
 
-   // 构建模型选项时拼接 provider/id，参考 OpenClaw UI 的 buildChatModelOption()
+   // 构建模型选项：label 显示为 "provider/name" 格式，与 Wizard 向导保持一致
    const modelOptions = useMemo(
       () =>
          models.map((m) => {
-            // 拼接成 provider/id 格式，如 "openrouter/moonshotai/kimi-k2.5"
+            // value: provider/id 格式，用于 API 调用
             const value = m.provider ? `${m.provider}/${m.id}` : m.id
-            return { value, label: m.name }
+            // label: provider/name 格式，用于显示
+            const label = m.provider ? formatModelLabel(m.provider, m.name) : m.name
+            return { value, label }
          }),
       [models],
    )
