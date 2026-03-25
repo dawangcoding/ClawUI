@@ -2,6 +2,7 @@ import React from 'react'
 import { Typography, Card, Space } from 'antd'
 import { CloudServerOutlined, ApiOutlined } from '@ant-design/icons'
 import type { GatewayMode } from '../../../types/global'
+import styles from '../OnboardingWizard.module.css'
 
 const { Title, Text, Paragraph } = Typography
 
@@ -25,6 +26,7 @@ export default function WelcomeStep({ bundledAvailable, onSelect }: Props) {
          <Space direction="vertical" size={16} style={{ width: '100%' }}>
             <Card
                hoverable={bundledAvailable}
+               className={bundledAvailable ? styles.modeCard : undefined}
                style={{
                   cursor: bundledAvailable ? 'pointer' : 'not-allowed',
                   opacity: bundledAvailable ? 1 : 0.5,
@@ -65,7 +67,12 @@ export default function WelcomeStep({ bundledAvailable, onSelect }: Props) {
                </Space>
             </Card>
 
-            <Card hoverable style={{ cursor: 'pointer' }} onClick={() => onSelect('external')}>
+            <Card
+               hoverable
+               className={styles.modeCard}
+               style={{ cursor: 'pointer' }}
+               onClick={() => onSelect('external')}
+            >
                <Space size={16} align="start">
                   <ApiOutlined style={{ fontSize: 28, color: '#8c8c8c' }} />
                   <div>

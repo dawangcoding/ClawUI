@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import { Typography, Radio, Input, Button, Checkbox, Spin, Space, Alert } from 'antd'
 import type { WizardStep } from '../hooks/useWizardRpc'
+import styles from '../OnboardingWizard.module.css'
 
 const { Title, Paragraph, Text } = Typography
 
@@ -153,6 +154,19 @@ function SelectRenderer({
    onSubmit: () => void
    getModelDisplayName?: (provider: string, modelId: string) => string
 }) {
+   if ((step.options?.length ?? 0) > 6) {
+      return (
+         <ProviderCardGrid
+            step={step}
+            value={value}
+            loading={loading}
+            onChange={onChange}
+            onSubmit={onSubmit}
+            getModelDisplayName={getModelDisplayName}
+         />
+      )
+   }
+
    return (
       <div>
          {step.message && (
@@ -181,6 +195,104 @@ function SelectRenderer({
                ))}
             </Space>
          </Radio.Group>
+         <Button
+            type="primary"
+            onClick={() => onSubmit()}
+            loading={loading}
+            disabled={value === null || value === undefined}
+         >
+            下一步
+         </Button>
+      </div>
+   )
+}
+
+// ── provider card grid ──
+
+function ProviderCardGrid({
+   step,
+   value,
+   loading,
+   onChange,
+   onSubmit,
+   getModelDisplayName,
+}: {
+   step: WizardStep
+   value: unknown
+   loading: boolean
+   onChange: (v: unknown) => void
+   onSubmit: () => void
+   getModelDisplayName?: (provider: string, modelId: string) => string
+}) {
+   const [searchText, setSearchText] = useState('')
+
+   useEffect(() => {
+      setSearchText('')
+   }, [step.id])
+
+   const filteredOptions = useMemo(() => {
+      if (!step.options) return []
+      if (!searchText) return step.options
+      const keyword = searchText.toLowerCase()
+      return step.options.filter(
+         (opt) =>
+            opt.label.toLowerCase().includes(keyword) ||
+            opt.hint?.toLowerCase().includes(keyword),
+      )
+   }, [step.options, searchText])
+
+   const showSearch = (step.options?.length ?? 0) > 8
+
+   return (
+      <div>
+         {step.message && (
+            <Paragraph type="secondary" style={{ marginBottom: 16 }}>
+               {step.message}
+            </Paragraph>
+         )}
+         {showSearch && (
+            <Input
+               placeholder="搜索..."
+               allowClear
+               value={searchText}
+               onChange={(e) => setSearchText(e.target.value)}
+               className={styles.providerSearch}
+            />
+         )}
+         <div className={styles.providerGrid}>
+            {filteredOptions.map((opt) => (
+               <div
+                  key={String(opt.value)}
+                  className={
+                     value === opt.value ? styles.providerCardSelected : styles.providerCard
+                  }
+                  onClick={() => {
+                     if (value === opt.value) {
+                        onSubmit()
+                     } else {
+                        onChange(opt.value)
+                     }
+                  }}
+               >
+                  <Text strong>
+                     <ModelOptionLabel
+                        label={opt.label}
+                        getModelDisplayName={getModelDisplayName}
+                     />
+                  </Text>
+                  {opt.hint && (
+                     <Text type="secondary" style={{ fontSize: 12 }}>
+                        {opt.hint}
+                     </Text>
+                  )}
+               </div>
+            ))}
+         </div>
+         {filteredOptions.length === 0 && (
+            <div style={{ textAlign: 'center', padding: '24px 0' }}>
+               <Text type="secondary">未找到匹配的结果</Text>
+            </div>
+         )}
          <Button
             type="primary"
             onClick={() => onSubmit()}
