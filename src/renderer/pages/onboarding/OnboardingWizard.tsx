@@ -132,7 +132,7 @@ export default function OnboardingWizard({ onComplete }: Props) {
                      <ExternalGatewayStep onConnected={handleGatewayConnected} />
                   )}
                   {phase === 'wizard' && (
-                     <WizardRpcStep onDone={handleWizardDone} onSkip={handleWizardDone} />
+                     <WizardRpcStep onDone={handleWizardDone} />
                   )}
                   {phase === 'complete' && (
                      <CompletionStep mode={mode} onFinish={handleComplete} />

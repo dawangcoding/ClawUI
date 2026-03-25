@@ -1,5 +1,5 @@
 import React, { useEffect, useCallback } from 'react'
-import { Typography, Alert, Button, Spin, Space, Popconfirm } from 'antd'
+import { Typography, Alert, Button, Spin } from 'antd'
 import { useWizardRpc } from '../hooks/useWizardRpc'
 import { useWizardModels } from '../hooks/useWizardModels'
 import WizardStepRenderer from '../components/WizardStepRenderer'
@@ -11,10 +11,9 @@ const { Title, Paragraph } = Typography
 
 interface Props {
    onDone: () => void
-   onSkip: () => void
 }
 
-export default function WizardRpcStep({ onDone, onSkip }: Props) {
+export default function WizardRpcStep({ onDone }: Props) {
    const {
       currentStep,
       done,
@@ -25,7 +24,6 @@ export default function WizardRpcStep({ onDone, onSkip }: Props) {
       autoAnswering,
       startWizard,
       answerStep,
-      cancelWizard,
    } = useWizardRpc()
 
    // 获取模型列表用于格式化显示
@@ -48,12 +46,6 @@ export default function WizardRpcStep({ onDone, onSkip }: Props) {
       },
       [answerStep],
    )
-
-   const handleSkip = useCallback(async () => {
-      log.log('Skipping wizard')
-      await cancelWizard()
-      onSkip()
-   }, [cancelWizard, onSkip])
 
    const handleRetry = useCallback(() => {
       startWizard()
@@ -84,20 +76,9 @@ export default function WizardRpcStep({ onDone, onSkip }: Props) {
                description={endError ?? '向导未能正常完成，配置可能未保存。'}
                style={{ marginBottom: 24 }}
             />
-            <Space>
-               <Button type="primary" onClick={handleRetry}>
-                  重新配置
-               </Button>
-               <Popconfirm
-                  title="跳过配置向导？"
-                  description="你可以稍后在设置页面中手动配置。"
-                  onConfirm={onSkip}
-                  okText="跳过"
-                  cancelText="取消"
-               >
-                  <Button>跳过配置</Button>
-               </Popconfirm>
-            </Space>
+            <Button type="primary" onClick={handleRetry}>
+               重新配置
+            </Button>
          </div>
       )
    }
@@ -115,20 +96,9 @@ export default function WizardRpcStep({ onDone, onSkip }: Props) {
                description={error}
                style={{ marginBottom: 24 }}
             />
-            <Space>
-               <Button type="primary" onClick={handleRetry}>
-                  重试
-               </Button>
-               <Popconfirm
-                  title="跳过配置向导？"
-                  description="你可以稍后在设置页面中手动配置。"
-                  onConfirm={handleSkip}
-                  okText="跳过"
-                  cancelText="取消"
-               >
-                  <Button>跳过配置</Button>
-               </Popconfirm>
-            </Space>
+            <Button type="primary" onClick={handleRetry}>
+               重试
+            </Button>
          </div>
       )
    }
@@ -155,21 +125,6 @@ export default function WizardRpcStep({ onDone, onSkip }: Props) {
                getModelDisplayName={getModelDisplayName}
             />
          )}
-
-         {/* 底部跳过按钮 */}
-         <div style={{ marginTop: 32, textAlign: 'right' }}>
-            <Popconfirm
-               title="跳过配置向导？"
-               description="你可以稍后在设置页面中手动配置。"
-               onConfirm={handleSkip}
-               okText="跳过"
-               cancelText="取消"
-            >
-               <Button type="link" size="small">
-                  跳过
-               </Button>
-            </Popconfirm>
-         </div>
       </div>
    )
 }
