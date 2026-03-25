@@ -3,8 +3,14 @@ node_modules
 
 # Build output
 dist
+out
 release
 resources/openclaw
+resources/openclaw-arm64
+*.tsbuildinfo
+
+# Electron
+*.asar
 
 # Logs
 *.log
@@ -19,7 +25,13 @@ Thumbs.db
 *.swp
 *.swo
 
+# Qoder / AI tools
+.qoder
+
 # Environment
 .env
 .env.*
 !.env.example
+
+# Test coverage
+coverage

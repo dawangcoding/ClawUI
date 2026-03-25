@@ -63,10 +63,10 @@ tabWidth: 3             # 缩进宽度 3 空格
 
 ## 参考文档
 
-- 如果想知道 OpenClaw Gateway 协议怎么定义的，参考：/Users/lzmcoding/Code/openclaw/src/gateway/protocol
-- 如果想知道怎么连接到 OpenClaw gateway 的，参考 OpenClaw UI 的实现：/Users/lzmcoding/Code/openclaw/ui
+- 如果想知道 OpenClaw Gateway 协议怎么定义的，参考：../openclaw/src/gateway/protocol（或 OpenClaw 仓库的 src/gateway/protocol 目录）
+- 如果想知道怎么连接到 OpenClaw gateway 的，参考 OpenClaw UI 的实现：../openclaw/ui（或 OpenClaw 仓库的 ui 目录）
 - 如果要了解 agentscope-ai 的使用，先参考内容大纲：docs/agentscope-ai/index，然后再参考详细内容：docs/agentscope-ai/all
-- 如果想参考 agentscope-ai 怎么实现的，参考源码：/Users/lzmcoding/Code/agentscope-spark-design
+- 如果想参考 agentscope-ai 怎么实现的，参考源码：../agentscope-spark-design（需本地克隆该仓库）
 - OpenClaw 项目 github ：https://github.com/openclaw/openclaw
 
 ## 内置 OpenClaw Gateway 打包指南
