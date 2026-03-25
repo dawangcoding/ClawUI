@@ -32,28 +32,7 @@ import {
 const { Sider } = Layout
 
 const useStyles = createStyles(() => ({
-   sider: {
-      scrollbarWidth: 'none',
-      // '&::-webkit-scrollbar': {
-      //    width: '5px',
-      //    height: '5px',
-      //    background: '#333'
-      // },
-      // '&::-webkit-scrollbar-track': {
-      //    background: 'rgba(255, 255, 255, 0.08)',
-      //    'border-radius': '4px',
-      // },
-      // '&::-webkit-scrollbar-thumb': {
-      //    background: 'rgba(255, 255, 255, 0.35)',
-      //    'border-radius': '4px',
-      // },
-      // '&::-webkit-scrollbar-thumb:hover': {
-      //    background: 'rgba(255, 255, 255, 0.50)',
-      // },
-      // '&::-webkit-scrollbar-thumb:active': {
-      //    background: 'rgba(255, 255, 255, 0.65)',
-      // },
-   },
+   sider: {},
 }))
 
 interface SidebarProps {
