@@ -1,6 +1,6 @@
 {
   "name": "clawui",
-  "version": "0.0.3",
+  "version": "0.0.5",
   "description": "A cross-platform desktop application built with Electron, React, TypeScript, and Vite",
   "main": "dist/main/index.js",
   "scripts": {
