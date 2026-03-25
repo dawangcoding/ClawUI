@@ -142,7 +142,23 @@ banner: {
 
 **症状**：如果缺少此 banner，运行时会报 `Dynamic require of "node:assert" is not supported`。
 
-#### 3. exports map 修复插件 (`createExportsFixPlugin`)
+#### 3. tsdown require 修复插件 (`createTsdownRequireFixPlugin`)
+
+tsdown 的 CJS 互操作会生成两种 esbuild 无法识别的 require 模式：
+
+**模式 1：`__require("xxx")`**
+tsdown 自己的 CJS shim，定义为 `var __require = createRequire(import.meta.url)`。
+
+**模式 2：`require$N("xxx")`**（如 `require$1("ajv")`）
+tsdown 通过 `const require$1 = createRequire(import.meta.url)` 创建的带编号 require 变量，用于内联 CJS 模块到 ESM 输出中。
+
+esbuild 只能静态分析标准的 `require("xxx")` 调用。这两种非标准模式会被原样保留，打包后 node_modules 被删除就会报 `Cannot find module 'xxx'`。
+
+插件在 `onLoad` 阶段将两种模式统一替换为标准 `require(`，使 esbuild 能正确内联依赖。
+
+**维护规则**：如果 tsdown 未来引入新的 require 变量命名模式（如 `require$$` 或其他前缀），需要在插件中添加对应的正则匹配。出现 `Cannot find module` 错误时，首先检查打包产物中是否存在 esbuild 未处理的非标准 require 调用。
+
+#### 4. exports map 修复插件 (`createExportsFixPlugin`)
 
 OpenClaw dist 中存在 `import fileType from "file-type/core.js"` 这样的导入，但 `file-type` 包的 exports map 只定义了 `./core`（不带 `.js`），且 `core.js` 没有 default export（只有 named exports）。
 
@@ -224,6 +240,8 @@ spawn(process.execPath, [openclawPath, 'gateway', 'run', '--allow-unconfigured']
 | `Cannot find module '../dist/babel.cjs'` | 扩展插件加载失败 | 在 `prepare-openclaw.ts` 中添加 jiti 的 `babel.cjs` 复制到 `dist/` 目录 |
 | 扩展插件列表正常但选择后无 API key 输入框 | 扩展代码加载失败，import 路径指向不存在的 chunk | 确保 `babel.cjs` 已复制，并检查 esbuild 打包日志确认扩展入口被正确处理 |
 | 聊天发送后模型 fallback 成功但无响应 | 模型在 OpenRouter 上不可用 | 使用 `openrouter/auto` 或确认模型 ID 正确 |
+| macOS codesign 失败：`invalid destination for symbolic link in bundle` | 扩展目录中的 `node_modules/.bin` 含有指向开发机绝对路径的符号链接，被复制进了 `.app` 包 | 确认 `prepare-openclaw.ts` 中备份扩展非 JS 文件时跳过了 `node_modules` 目录（`if (item === 'index.js' \|\| item === 'node_modules') continue`） |
+| `Cannot find module 'ajv'`（或其他包），但该包不在 EXTERNAL_PACKAGES 中 | tsdown 使用 `require$N()` 模式（如 `require$1("ajv")`）加载该包，esbuild 无法静态分析这种通过变量间接调用的 require | 确认 `createTsdownRequireFixPlugin` 正确处理了 `require$N(` 模式（正则 `/\brequire\$\d+\(/g`） |
 
 ## 扩展插件打包注意事项
 

@@ -48,16 +48,20 @@ const EXTERNAL_PACKAGES = [
 ]
 
 /**
- * 修正 tsdown 构建产物中的 __require 调用。
+ * 修正 tsdown 构建产物中的非标准 require 调用。
  *
- * tsdown 的 CJS 互操作会生成 `__require("express")` 之类的调用，
- * 其中 `__require` 是 tsdown 自己的 CJS shim（非标准 `require`）。
- * esbuild 无法识别 `__require` 为可打包的 require 调用，会原样保留。
- * 打包后 node_modules 被删除，运行时这些 `__require` 调用就会失败。
+ * tsdown 的 CJS 互操作会生成两种 esbuild 无法识别的 require 模式：
  *
- * 此插件在 esbuild 加载源文件时，将 `__require(` 替换为 `require(`，
- * 使 esbuild 能正确识别并内联这些依赖。Node.js 内置模块不受影响，
- * esbuild 会将它们标记为 external，运行时通过 banner 注入的 createRequire 解析。
+ * 1. `__require("express")` — tsdown 自己的 CJS shim，变量名为 `__require`
+ * 2. `require$1("ajv")` — tsdown 通过 `const require$1 = createRequire(import.meta.url)`
+ *    创建的带编号 require 变量，用于内联 CJS 模块
+ *
+ * esbuild 只能识别标准的 `require("xxx")` 调用并将其内联到 bundle 中。
+ * 这两种非标准模式会被原样保留，打包后 node_modules 被删除就会报 ERR_MODULE_NOT_FOUND。
+ *
+ * 此插件将这些模式统一替换为 `require(`，使 esbuild 能正确内联依赖。
+ * Node.js 内置模块不受影响，esbuild 会标记为 external，
+ * 运行时通过 banner 注入的 createRequire 解析。
  */
 function createTsdownRequireFixPlugin(distDir: string): Plugin {
    return {
@@ -68,13 +72,25 @@ function createTsdownRequireFixPlugin(distDir: string): Plugin {
             if (!args.path.startsWith(distDir)) return null
 
             const source = readFileSync(args.path, 'utf-8')
-            if (!source.includes('__require(')) return null
+            const hasUnderscoreRequire = source.includes('__require(')
+            const hasNumberedRequire = /\brequire\$\d+\(/.test(source)
+            if (!hasUnderscoreRequire && !hasNumberedRequire) return null
 
-            // 将 __require( 替换为 require(，让 esbuild 识别为标准 require 调用
-            // 同时移除 __require 的定义行，避免在输出中产生冗余的 createRequire 调用
-            const fixed = source
-               .replace(/\bvar __require\b.+?createRequire.+?;\n?/g, '')
-               .replace(/\b__require\(/g, 'require(')
+            let fixed = source
+
+            // 模式 1: __require( → require(
+            if (hasUnderscoreRequire) {
+               fixed = fixed
+                  .replace(/\bvar __require\b.+?createRequire.+?;\n?/g, '')
+                  .replace(/\b__require\(/g, 'require(')
+            }
+
+            // 模式 2: require$N( → require(（同时移除 createRequire 定义行）
+            if (hasNumberedRequire) {
+               fixed = fixed
+                  .replace(/\b(?:const|var|let)\s+require\$\d+\s*=\s*createRequire\(.+?\);?\n?/g, '')
+                  .replace(/\brequire\$\d+\(/g, 'require(')
+            }
 
             return { contents: fixed, loader: 'js' }
          })
@@ -176,10 +192,12 @@ async function bundleOpenClaw(targetDir: string): Promise<void> {
          }
 
          // 备份非 JS 文件（openclaw.plugin.json、package.json、skills/ 等）
+         // 跳过 node_modules：esbuild 已将依赖内联，且其中 .bin 符号链接指向开发机绝对路径，
+         // 会导致 macOS codesign 验证失败（invalid destination for symbolic link in bundle）
          const backupExtDir = join(extensionsBackup, extName)
          mkdirSync(backupExtDir, { recursive: true })
          for (const item of readdirSync(extDir)) {
-            if (item === 'index.js') continue
+            if (item === 'index.js' || item === 'node_modules') continue
             cpSync(join(extDir, item), join(backupExtDir, item), { recursive: true })
          }
       }
