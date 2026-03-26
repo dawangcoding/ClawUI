@@ -11,9 +11,17 @@ interface Props {
    onAnswer: (stepId: string, value: unknown) => void
    /** 用于格式化模型选项显示名称的函数 */
    getModelDisplayName?: (provider: string, modelId: string) => string
+   /** 回退到上一步 */
+   onBack?: () => void
 }
 
-export default function WizardStepRenderer({ step, loading, onAnswer, getModelDisplayName }: Props) {
+export default function WizardStepRenderer({
+   step,
+   loading,
+   onAnswer,
+   getModelDisplayName,
+   onBack,
+}: Props) {
    const [value, setValue] = useState<unknown>(step.initialValue ?? null)
 
    // 每次 step 变化时重置 value
@@ -33,7 +41,9 @@ export default function WizardStepRenderer({ step, loading, onAnswer, getModelDi
             </Title>
          )}
 
-         {step.type === 'note' && <NoteRenderer step={step} loading={loading} onSubmit={submit} />}
+         {step.type === 'note' && (
+            <NoteRenderer step={step} loading={loading} onSubmit={submit} onBack={onBack} />
+         )}
          {step.type === 'select' && (
             <SelectRenderer
                step={step}
@@ -42,6 +52,7 @@ export default function WizardStepRenderer({ step, loading, onAnswer, getModelDi
                onChange={setValue}
                onSubmit={submit}
                getModelDisplayName={getModelDisplayName}
+               onBack={onBack}
             />
          )}
          {step.type === 'text' && (
@@ -51,10 +62,16 @@ export default function WizardStepRenderer({ step, loading, onAnswer, getModelDi
                loading={loading}
                onChange={setValue}
                onSubmit={submit}
+               onBack={onBack}
             />
          )}
          {step.type === 'confirm' && (
-            <ConfirmRenderer step={step} loading={loading} onSubmit={submit} />
+            <ConfirmRenderer
+               step={step}
+               loading={loading}
+               onSubmit={submit}
+               onBack={onBack}
+            />
          )}
          {step.type === 'multiselect' && (
             <MultiselectRenderer
@@ -64,13 +81,14 @@ export default function WizardStepRenderer({ step, loading, onAnswer, getModelDi
                onChange={setValue}
                onSubmit={submit}
                getModelDisplayName={getModelDisplayName}
+               onBack={onBack}
             />
          )}
          {step.type === 'progress' && (
             <ProgressRenderer step={step} loading={loading} onSubmit={submit} />
          )}
          {step.type === 'action' && (
-            <ActionRenderer step={step} loading={loading} onSubmit={submit} />
+            <ActionRenderer step={step} loading={loading} onSubmit={submit} onBack={onBack} />
          )}
       </div>
    )
@@ -82,10 +100,12 @@ function NoteRenderer({
    step,
    loading,
    onSubmit,
+   onBack,
 }: {
    step: WizardStep
    loading: boolean
    onSubmit: () => void
+   onBack?: () => void
 }) {
    return (
       <div>
@@ -96,9 +116,12 @@ function NoteRenderer({
                style={{ marginBottom: 24, whiteSpace: 'pre-wrap' }}
             />
          )}
-         <Button type="primary" onClick={() => onSubmit()} loading={loading}>
-            继续
-         </Button>
+         <Space>
+            {onBack && <Button onClick={onBack}>上一步</Button>}
+            <Button type="primary" onClick={() => onSubmit()} loading={loading}>
+               继续
+            </Button>
+         </Space>
       </div>
    )
 }
@@ -146,6 +169,7 @@ function SelectRenderer({
    onChange,
    onSubmit,
    getModelDisplayName,
+   onBack,
 }: {
    step: WizardStep
    value: unknown
@@ -153,6 +177,7 @@ function SelectRenderer({
    onChange: (v: unknown) => void
    onSubmit: () => void
    getModelDisplayName?: (provider: string, modelId: string) => string
+   onBack?: () => void
 }) {
    if ((step.options?.length ?? 0) > 6) {
       return (
@@ -163,6 +188,7 @@ function SelectRenderer({
             onChange={onChange}
             onSubmit={onSubmit}
             getModelDisplayName={getModelDisplayName}
+            onBack={onBack}
          />
       )
    }
@@ -195,14 +221,17 @@ function SelectRenderer({
                ))}
             </Space>
          </Radio.Group>
-         <Button
-            type="primary"
-            onClick={() => onSubmit()}
-            loading={loading}
-            disabled={value === null || value === undefined}
-         >
-            下一步
-         </Button>
+         <Space>
+            {onBack && <Button onClick={onBack}>上一步</Button>}
+            <Button
+               type="primary"
+               onClick={() => onSubmit()}
+               loading={loading}
+               disabled={value === null || value === undefined}
+            >
+               下一步
+            </Button>
+         </Space>
       </div>
    )
 }
@@ -216,6 +245,7 @@ function ProviderCardGrid({
    onChange,
    onSubmit,
    getModelDisplayName,
+   onBack,
 }: {
    step: WizardStep
    value: unknown
@@ -223,6 +253,7 @@ function ProviderCardGrid({
    onChange: (v: unknown) => void
    onSubmit: () => void
    getModelDisplayName?: (provider: string, modelId: string) => string
+   onBack?: () => void
 }) {
    const [searchText, setSearchText] = useState('')
 
@@ -293,14 +324,17 @@ function ProviderCardGrid({
                <Text type="secondary">未找到匹配的结果</Text>
             </div>
          )}
-         <Button
-            type="primary"
-            onClick={() => onSubmit()}
-            loading={loading}
-            disabled={value === null || value === undefined}
-         >
-            下一步
-         </Button>
+         <Space>
+            {onBack && <Button onClick={onBack}>上一步</Button>}
+            <Button
+               type="primary"
+               onClick={() => onSubmit()}
+               loading={loading}
+               disabled={value === null || value === undefined}
+            >
+               下一步
+            </Button>
+         </Space>
       </div>
    )
 }
@@ -313,12 +347,14 @@ function TextRenderer({
    loading,
    onChange,
    onSubmit,
+   onBack,
 }: {
    step: WizardStep
    value: string
    loading: boolean
    onChange: (v: string) => void
    onSubmit: () => void
+   onBack?: () => void
 }) {
    const InputComponent = step.sensitive ? Input.Password : Input
 
@@ -338,9 +374,12 @@ function TextRenderer({
                if (value) onSubmit()
             }}
          />
-         <Button type="primary" onClick={() => onSubmit()} loading={loading}>
-            下一步
-         </Button>
+         <Space>
+            {onBack && <Button onClick={onBack}>上一步</Button>}
+            <Button type="primary" onClick={() => onSubmit()} loading={loading}>
+               下一步
+            </Button>
+         </Space>
       </div>
    )
 }
@@ -351,10 +390,12 @@ function ConfirmRenderer({
    step,
    loading,
    onSubmit,
+   onBack,
 }: {
    step: WizardStep
    loading: boolean
    onSubmit: (val: boolean) => void
+   onBack?: () => void
 }) {
    return (
       <div>
@@ -362,6 +403,7 @@ function ConfirmRenderer({
             <Paragraph style={{ marginBottom: 24, fontSize: 15 }}>{step.message}</Paragraph>
          )}
          <Space>
+            {onBack && <Button onClick={onBack}>上一步</Button>}
             <Button type="primary" onClick={() => onSubmit(true)} loading={loading}>
                是
             </Button>
@@ -382,6 +424,7 @@ function MultiselectRenderer({
    onChange,
    onSubmit,
    getModelDisplayName,
+   onBack,
 }: {
    step: WizardStep
    value: unknown
@@ -389,6 +432,7 @@ function MultiselectRenderer({
    onChange: (v: unknown) => void
    onSubmit: () => void
    getModelDisplayName?: (provider: string, modelId: string) => string
+   onBack?: () => void
 }) {
    const selected = Array.isArray(value) ? (value as unknown[]) : []
 
@@ -420,9 +464,12 @@ function MultiselectRenderer({
                ))}
             </Space>
          </Checkbox.Group>
-         <Button type="primary" onClick={() => onSubmit()} loading={loading}>
-            下一步
-         </Button>
+         <Space>
+            {onBack && <Button onClick={onBack}>上一步</Button>}
+            <Button type="primary" onClick={() => onSubmit()} loading={loading}>
+               下一步
+            </Button>
+         </Space>
       </div>
    )
 }
@@ -463,10 +510,12 @@ function ActionRenderer({
    step,
    loading,
    onSubmit,
+   onBack,
 }: {
    step: WizardStep
    loading: boolean
    onSubmit: () => void
+   onBack?: () => void
 }) {
    if (step.executor === 'gateway') {
       // Gateway 端执行，自动提交
@@ -495,9 +544,12 @@ function ActionRenderer({
                {step.message}
             </Paragraph>
          )}
-         <Button type="primary" onClick={() => onSubmit()} loading={loading}>
-            执行
-         </Button>
+         <Space>
+            {onBack && <Button onClick={onBack}>上一步</Button>}
+            <Button type="primary" onClick={() => onSubmit()} loading={loading}>
+               执行
+            </Button>
+         </Space>
       </div>
    )
 }

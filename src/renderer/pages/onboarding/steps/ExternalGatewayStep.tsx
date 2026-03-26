@@ -10,9 +10,10 @@ const { Title, Paragraph } = Typography
 
 interface Props {
    onConnected: () => void
+   onBack: () => void
 }
 
-export default function ExternalGatewayStep({ onConnected }: Props) {
+export default function ExternalGatewayStep({ onConnected, onBack }: Props) {
    const { connected, lastError } = useGateway()
    const [gatewayUrl, setGatewayUrl] = useState('')
    const [token, setToken] = useState('')
@@ -93,15 +94,20 @@ export default function ExternalGatewayStep({ onConnected }: Props) {
                />
             </Form.Item>
             <Form.Item>
-               <Button
-                  type="primary"
-                  icon={<LinkOutlined />}
-                  onClick={handleConnect}
-                  loading={loading}
-                  disabled={!gatewayUrl || !token}
-               >
-                  测试连接
-               </Button>
+               <Space>
+                  <Button onClick={onBack} disabled={loading}>
+                     上一步
+                  </Button>
+                  <Button
+                     type="primary"
+                     icon={<LinkOutlined />}
+                     onClick={handleConnect}
+                     loading={loading}
+                     disabled={!gatewayUrl || !token}
+                  >
+                     测试连接
+                  </Button>
+               </Space>
             </Form.Item>
          </Form>
       </div>

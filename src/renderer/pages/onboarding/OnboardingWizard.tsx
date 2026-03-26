@@ -70,6 +70,21 @@ export default function OnboardingWizard({ onComplete }: Props) {
       onComplete()
    }, [onComplete])
 
+   const handleGoBack = useCallback(async () => {
+      log.log('Going back from phase=%s, mode=%s', phase, mode)
+      try {
+         if (mode === 'builtin') {
+            await window.clawAPI.gateway.stopBuiltin()
+         } else {
+            await window.clawAPI.gateway.disconnect()
+         }
+      } catch (err) {
+         log.error('Cleanup error during go-back:', err)
+      }
+      setMode(null)
+      setPhase('welcome')
+   }, [phase, mode])
+
    const handleSwitchToExternal = useCallback(async () => {
       log.log('Switching to external mode')
       setMode('external')
@@ -126,13 +141,17 @@ export default function OnboardingWizard({ onComplete }: Props) {
                      <BuiltinGatewayStep
                         onConnected={handleGatewayConnected}
                         onSwitchToExternal={handleSwitchToExternal}
+                        onBack={handleGoBack}
                      />
                   )}
                   {phase === 'gateway' && mode === 'external' && (
-                     <ExternalGatewayStep onConnected={handleGatewayConnected} />
+                     <ExternalGatewayStep
+                        onConnected={handleGatewayConnected}
+                        onBack={handleGoBack}
+                     />
                   )}
                   {phase === 'wizard' && (
-                     <WizardRpcStep onDone={handleWizardDone} />
+                     <WizardRpcStep onDone={handleWizardDone} onBack={handleGoBack} />
                   )}
                   {phase === 'complete' && (
                      <CompletionStep mode={mode} onFinish={handleComplete} />

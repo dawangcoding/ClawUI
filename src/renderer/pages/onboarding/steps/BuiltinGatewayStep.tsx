@@ -20,9 +20,10 @@ const STATUS_TEXT: Record<GatewayProcessStatus, string> = {
 interface Props {
    onConnected: () => void
    onSwitchToExternal: () => void
+   onBack: () => void
 }
 
-export default function BuiltinGatewayStep({ onConnected, onSwitchToExternal }: Props) {
+export default function BuiltinGatewayStep({ onConnected, onSwitchToExternal, onBack }: Props) {
    const { connected } = useGateway()
    const [status, setStatus] = useState<GatewayProcessStatus>('idle')
    const [error, setError] = useState<string | null>(null)
@@ -116,6 +117,9 @@ export default function BuiltinGatewayStep({ onConnected, onSwitchToExternal }: 
                      {connected ? '已连接' : STATUS_TEXT[status]}
                   </Text>
                </div>
+               <div style={{ marginTop: 24 }}>
+                  <Button onClick={onBack}>上一步</Button>
+               </div>
             </div>
          )}
 
@@ -128,6 +132,7 @@ export default function BuiltinGatewayStep({ onConnected, onSwitchToExternal }: 
                   style={{ marginBottom: 24, textAlign: 'left' }}
                />
                <Space>
+                  <Button onClick={onBack}>上一步</Button>
                   <Button
                      type="primary"
                      icon={<ReloadOutlined />}
