@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { Card, Input, Button, Alert, Badge, Space, Typography } from 'antd'
-import { LinkOutlined, DisconnectOutlined } from '@ant-design/icons'
+import { LinkOutlined, DisconnectOutlined, ReloadOutlined } from '@ant-design/icons'
 import { createLogger } from '../../../shared/logger'
 
 const log = createLogger('AccessCard')
@@ -13,6 +13,9 @@ interface AccessCardProps {
    lastError: string | null
    onConnect: () => Promise<void>
    onDisconnect: () => Promise<void>
+   builtinMode: boolean
+   builtinRestarting: boolean
+   onRestartBuiltin: () => Promise<void>
 }
 
 export default function AccessCard({
@@ -22,6 +25,9 @@ export default function AccessCard({
    lastError,
    onConnect,
    onDisconnect,
+   builtinMode,
+   builtinRestarting,
+   onRestartBuiltin,
 }: AccessCardProps) {
    const [gatewayUrl, setGatewayUrl] = useState('')
    const [token, setToken] = useState('')
@@ -151,27 +157,42 @@ export default function AccessCard({
                   style={{ fontFamily: 'monospace', fontSize: 12 }}
                />
             </div>
-            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flex: 1 }}>
-               {connected ? (
-                  <Button
-                     danger
-                     icon={<DisconnectOutlined />}
-                     onClick={handleDisconnect}
-                  >
-                     断开连接
-                  </Button>
-               ) : (
-                  <Button
-                     type="primary"
-                     size="small"
-                     icon={<LinkOutlined />}
-                     onClick={handleConnect}
-                     loading={loading || connecting}
-                     disabled={!gatewayUrl}
-                  >
-                     连接
-                  </Button>
-               )}
+            <div
+               style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flex: 1 }}
+            >
+               <Space>
+                  {builtinMode && (
+                     <Button
+                        size="small"
+                        icon={<ReloadOutlined />}
+                        onClick={onRestartBuiltin}
+                        loading={builtinRestarting}
+                     >
+                        重启 OpenClaw
+                     </Button>
+                  )}
+                  {connected ? (
+                     <Button
+                        danger
+                        size="small"
+                        icon={<DisconnectOutlined />}
+                        onClick={handleDisconnect}
+                     >
+                        断开连接
+                     </Button>
+                  ) : (
+                     <Button
+                        type="primary"
+                        size="small"
+                        icon={<LinkOutlined />}
+                        onClick={handleConnect}
+                        loading={loading || connecting}
+                        disabled={!gatewayUrl}
+                     >
+                        连接
+                     </Button>
+                  )}
+               </Space>
             </div>
          </div>
 

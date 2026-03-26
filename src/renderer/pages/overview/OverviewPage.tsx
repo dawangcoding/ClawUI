@@ -14,6 +14,7 @@ import type {
    CronJobsListResult,
    ChannelsStatusSnapshot,
 } from '../../../shared/types/gateway-protocol'
+import type { GatewayMode, GatewayProcessStatus } from '../../types/global'
 import { createLogger } from '../../../shared/logger'
 import AccessCard from './AccessCard'
 import SnapshotCard from './SnapshotCard'
@@ -45,6 +46,48 @@ export default function OverviewPage() {
    const { snapshot, helloOk } = useSnapshot()
    const { navigate } = useNavigation()
    const eventLog = useEventLog()
+
+   // ── 内置 Gateway 状态 ──
+   const [mode, setMode] = useState<GatewayMode>('external')
+   const [bundled, setBundled] = useState(false)
+   const [builtinStatus, setBuiltinStatus] = useState<GatewayProcessStatus>('idle')
+   const [builtinRestarting, setBuiltinRestarting] = useState(false)
+
+   useEffect(() => {
+      window.clawAPI.gateway.loadConfig().then((config) => {
+         if (config?.mode) setMode(config.mode as GatewayMode)
+      })
+      window.clawAPI.gateway.checkBundled().then(setBundled)
+      window.clawAPI.gateway.getBuiltinStatus().then(setBuiltinStatus)
+   }, [])
+
+   useEffect(() => {
+      const unsubscribe = window.clawAPI.gateway.onBuiltinStatusChanged((status) => {
+         log.log('Builtin status changed: %s', status)
+         setBuiltinStatus(status)
+         setBuiltinRestarting(false)
+      })
+      return () => {
+         unsubscribe()
+      }
+   }, [])
+
+   const handleRestartBuiltin = useCallback(async () => {
+      log.log('Restart builtin gateway')
+      setBuiltinRestarting(true)
+      try {
+         const result = await window.clawAPI.gateway.restartBuiltin()
+         if (!result.success) {
+            log.error('restartBuiltin failed: %s', result.error)
+            setBuiltinRestarting(false)
+         }
+      } catch (err) {
+         log.error('restartBuiltin error:', err)
+         setBuiltinRestarting(false)
+      }
+   }, [])
+
+   const builtinMode = mode === 'builtin' && bundled
 
    // ── RPC 数据加载 ──
    const sessionsRpc = useGatewayRpc<SessionsListResult>(
@@ -186,6 +229,9 @@ export default function OverviewPage() {
                   lastError={lastError}
                   onConnect={connect}
                   onDisconnect={disconnect}
+                  builtinMode={builtinMode}
+                  builtinRestarting={builtinRestarting}
+                  onRestartBuiltin={handleRestartBuiltin}
                />
             </Col>
             <Col span={12}>
