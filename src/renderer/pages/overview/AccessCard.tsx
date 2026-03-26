@@ -16,6 +16,7 @@ interface AccessCardProps {
    builtinMode: boolean
    builtinRestarting: boolean
    onRestartBuiltin: () => Promise<void>
+   serverVersion: string | null
 }
 
 export default function AccessCard({
@@ -28,6 +29,7 @@ export default function AccessCard({
    builtinMode,
    builtinRestarting,
    onRestartBuiltin,
+   serverVersion,
 }: AccessCardProps) {
    const [gatewayUrl, setGatewayUrl] = useState('')
    const [token, setToken] = useState('')
@@ -94,7 +96,16 @@ export default function AccessCard({
 
    return (
       <Card
-         title="Gateway 接入"
+         title={
+            <Space size={8} align="center">
+               <span>Gateway 接入</span>
+               {connected && serverVersion && (
+                  <Text style={{ fontSize: 12, color: '#52c41a', fontWeight: 'normal' }}>
+                     v{serverVersion}
+                  </Text>
+               )}
+            </Space>
+         }
          size="small"
          style={{ height: '100%', display: 'flex', flexDirection: 'column' }}
          styles={{ body: { flex: 1, display: 'flex', flexDirection: 'column' } }}

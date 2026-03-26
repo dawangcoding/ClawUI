@@ -162,7 +162,7 @@ function parseArgs(): { openclawDir: string } {
  * 用 esbuild 将 dist/ 中的所有 npm 依赖内联到 bundle 中。
  * 打包后 node_modules 不再需要，可以安全删除。
  */
-async function bundleOpenClaw(targetDir: string): Promise<void> {
+async function bundleOpenClaw(targetDir: string, openclawVersion: string): Promise<void> {
    const distDir = join(targetDir, 'dist')
    const bundledDir = join(targetDir, 'dist-bundled')
 
@@ -268,12 +268,14 @@ async function bundleOpenClaw(targetDir: string): Promise<void> {
       rmSync(nodeModulesDir, { recursive: true })
    }
 
-   // package.json 替换为最小版本（只保留 type: module 声明，消除 MODULE_TYPELESS_PACKAGE_JSON 警告）
+   // package.json 替换为最小版本（保留 type 和 version，消除 MODULE_TYPELESS_PACKAGE_JSON 警告）
    const pkgJson = join(targetDir, 'package.json')
    if (existsSync(pkgJson)) {
       rmSync(pkgJson)
    }
-   writeFileSync(pkgJson, '{"type":"module"}\n')
+   const finalPkg: Record<string, unknown> = { type: 'module' }
+   if (openclawVersion) finalPkg.version = openclawVersion
+   writeFileSync(pkgJson, JSON.stringify(finalPkg, null, 2) + '\n')
 
    console.log('[prepare-openclaw] Bundle complete')
 }
@@ -340,9 +342,11 @@ async function main() {
 
    // 复制 package.json 并安装生产依赖（供 esbuild 打包解析用）
    const pkgPath = join(openclawDir, 'package.json')
+   let openclawVersion = ''
    if (existsSync(pkgPath)) {
       console.log('[prepare-openclaw] Copying package.json...')
       const pkg = JSON.parse(readFileSync(pkgPath, 'utf-8'))
+      openclawVersion = pkg.version ?? ''
       const minimalPkg = {
          name: pkg.name,
          version: pkg.version,
@@ -391,7 +395,7 @@ async function main() {
    }
 
    // esbuild 二次打包：内联所有 npm 依赖，删除 node_modules
-   await bundleOpenClaw(targetDir)
+   await bundleOpenClaw(targetDir, openclawVersion)
 
    console.log('[prepare-openclaw] Done!')
 }

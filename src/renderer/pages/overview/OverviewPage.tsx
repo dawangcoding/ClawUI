@@ -232,6 +232,7 @@ export default function OverviewPage() {
                   builtinMode={builtinMode}
                   builtinRestarting={builtinRestarting}
                   onRestartBuiltin={handleRestartBuiltin}
+                  serverVersion={helloOk?.server?.version ?? null}
                />
             </Col>
             <Col span={12}>

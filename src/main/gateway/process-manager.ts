@@ -205,6 +205,20 @@ export class GatewayProcessManager {
             OPENCLAW_NO_RESPAWN: '1',
          }
 
+         // 清除 ClawUI 自身的 npm_package_version，避免 OpenClaw 版本解析 fallback 到此值
+         delete env.npm_package_version
+
+         // 从打包产物的 package.json 读取 OpenClaw 版本号，通过 OPENCLAW_VERSION 注入
+         const openclawPkgPath = join(dirname(this._openclawPath), 'package.json')
+         try {
+            const openclawPkg = JSON.parse(readFileSync(openclawPkgPath, 'utf-8'))
+            if (openclawPkg.version) {
+               env.OPENCLAW_VERSION = openclawPkg.version
+            }
+         } catch {
+            // 读取失败不影响启动
+         }
+
          // 确保配置目录存在，合并 auth 配置到已有文件中
          if (!existsSync(openclawDir)) {
             mkdirSync(openclawDir, { recursive: true })
