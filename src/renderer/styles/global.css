@@ -21,12 +21,12 @@ html, body {
 }
 
 .claw-scrollbar {
-  scrollbar-width: none;
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
   scrollbar-color: transparent transparent;
 }
 
 .claw-scrollbar:hover {
-  scrollbar-width: thin;
   scrollbar-color: var(--claw-scrollbar-thumb) transparent;
 }
 
