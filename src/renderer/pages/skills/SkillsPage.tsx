@@ -1,10 +1,11 @@
-import React, { useMemo } from 'react'
-import { Spin } from 'antd'
+import React, { useMemo, useState } from 'react'
+import { Segmented, Spin } from 'antd'
 import { Button, Input, Alert, Collapse, Empty } from '@agentscope-ai/design'
-import { ReloadOutlined, LinkOutlined } from '@ant-design/icons'
+import { ReloadOutlined } from '@ant-design/icons'
 import { useGateway } from '../../contexts/GatewayContext'
 import { useSkillsState } from './useSkillsState'
 import SkillItem from './SkillItem'
+import StoreTab from './StoreTab'
 import { filterSkills, groupSkills, COLLAPSED_BY_DEFAULT } from './skills-utils'
 import EmptyState from '../../components/EmptyState'
 import styles from './SkillsPage.module.css'
@@ -12,6 +13,7 @@ import styles from './SkillsPage.module.css'
 export default function SkillsPage() {
    const { connected } = useGateway()
    const state = useSkillsState()
+   const [activeTab, setActiveTab] = useState<'installed' | 'store'>('installed')
 
    const allSkills = state.report?.skills ?? []
 
@@ -69,105 +71,117 @@ export default function SkillsPage() {
                   <span className={styles.pageTitleAccent} />
                   技能
                </div>
-               <span className={styles.pageSubtitle}>已安装技能及其状态</span>
+               <span className={styles.pageSubtitle}>
+                  {activeTab === 'installed' ? '已安装技能及其状态' : 'ClawHub 远程技能商店'}
+               </span>
             </div>
             <div className={styles.headerActions}>
-               <Button
-                  icon={<LinkOutlined />}
-                  onClick={() => window.open('https://clawhub.com', '_blank', 'noreferrer')}
-               >
-                  浏览技能商店
-               </Button>
-               <Button
-                  icon={<ReloadOutlined />}
-                  onClick={state.loadSkills}
-                  loading={state.loading}
-                  disabled={!connected}
-               >
-                  刷新
-               </Button>
-            </div>
-         </div>
-
-         {/* Stats overview */}
-         {allSkills.length > 0 && (
-            <div className={styles.statsRow}>
-               <div className={`${styles.statBlock} ${styles.statTotal}`}>
-                  <span className={styles.statLabel}>总计</span>
-                  <div className={styles.statValueRow}>
-                     <span className={styles.statValue}>{stats.total}</span>
-                     <span className={styles.statDetail}>
-                        {stats.workspaceCount} 工作区 · {stats.builtinCount} 内置
-                     </span>
-                  </div>
-               </div>
-               <div className={`${styles.statBlock} ${styles.statActive}`}>
-                  <span className={styles.statLabel}>已激活</span>
-                  <div className={styles.statValueRow}>
-                     <span className={styles.statValue}>{stats.eligible}</span>
-                     <span className={styles.statDetail}>可用技能</span>
-                  </div>
-               </div>
-               <div className={`${styles.statBlock} ${styles.statDisabled}`}>
-                  <span className={styles.statLabel}>已禁用</span>
-                  <div className={styles.statValueRow}>
-                     <span className={styles.statValue}>{stats.disabled}</span>
-                     <span className={styles.statDetail}>手动关闭</span>
-                  </div>
-               </div>
-               <div className={`${styles.statBlock} ${styles.statBlocked}`}>
-                  <span className={styles.statLabel}>已阻止</span>
-                  <div className={styles.statValueRow}>
-                     <span className={styles.statValue}>{stats.blocked}</span>
-                     <span className={styles.statDetail}>缺失依赖</span>
-                  </div>
-               </div>
-            </div>
-         )}
-
-         {/* Filter bar */}
-         <div className={styles.filterBar}>
-            <div className={styles.filterSearch}>
-               <Input
-                  placeholder="搜索技能"
-                  value={state.filter}
-                  onChange={(e) => state.setFilter(e.target.value)}
-                  allowClear
+               <Segmented
+                  value={activeTab}
+                  onChange={(v) => setActiveTab(v as 'installed' | 'store')}
+                  options={[
+                     { label: '已安装', value: 'installed' },
+                     { label: '技能商店', value: 'store' },
+                  ]}
                />
+               {activeTab === 'installed' && (
+                  <Button
+                     icon={<ReloadOutlined />}
+                     onClick={state.loadSkills}
+                     loading={state.loading}
+                     disabled={!connected}
+                  >
+                     刷新
+                  </Button>
+               )}
             </div>
-            <span className={styles.shownCount}>{filtered.length} 项</span>
          </div>
 
-         {/* Error banner */}
-         {state.globalError && (
-            <Alert
-               type="error"
-               message={state.globalError}
-               closable
-               style={{ marginTop: 12 }}
-            />
-         )}
-
-         {/* Content area */}
-         <div className={styles.contentArea}>
-            <Spin spinning={state.loading && !state.report}>
-               {filtered.length === 0 ? (
-                  <div className={styles.emptyContainer}>
-                     {!connected && !state.report ? (
-                        <Empty description="未连接到 Gateway" />
-                     ) : (
-                        <Empty description="未找到技能" />
-                     )}
+         {activeTab === 'store' ? (
+            <StoreTab />
+         ) : (
+            <>
+               {/* Stats overview */}
+               {allSkills.length > 0 && (
+                  <div className={styles.statsRow}>
+                     <div className={`${styles.statBlock} ${styles.statTotal}`}>
+                        <span className={styles.statLabel}>总计</span>
+                        <div className={styles.statValueRow}>
+                           <span className={styles.statValue}>{stats.total}</span>
+                           <span className={styles.statDetail}>
+                              {stats.workspaceCount} 工作区 · {stats.builtinCount} 内置
+                           </span>
+                        </div>
+                     </div>
+                     <div className={`${styles.statBlock} ${styles.statActive}`}>
+                        <span className={styles.statLabel}>已激活</span>
+                        <div className={styles.statValueRow}>
+                           <span className={styles.statValue}>{stats.eligible}</span>
+                           <span className={styles.statDetail}>可用技能</span>
+                        </div>
+                     </div>
+                     <div className={`${styles.statBlock} ${styles.statDisabled}`}>
+                        <span className={styles.statLabel}>已禁用</span>
+                        <div className={styles.statValueRow}>
+                           <span className={styles.statValue}>{stats.disabled}</span>
+                           <span className={styles.statDetail}>手动关闭</span>
+                        </div>
+                     </div>
+                     <div className={`${styles.statBlock} ${styles.statBlocked}`}>
+                        <span className={styles.statLabel}>已阻止</span>
+                        <div className={styles.statValueRow}>
+                           <span className={styles.statValue}>{stats.blocked}</span>
+                           <span className={styles.statDetail}>缺失依赖</span>
+                        </div>
+                     </div>
                   </div>
-               ) : (
-                  <Collapse
-                     className={styles.collapseWrapper}
-                     defaultActiveKey={defaultActiveKeys}
-                     items={collapseItems}
+               )}
+
+               {/* Filter bar */}
+               <div className={styles.filterBar}>
+                  <div className={styles.filterSearch}>
+                     <Input
+                        placeholder="搜索技能"
+                        value={state.filter}
+                        onChange={(e) => state.setFilter(e.target.value)}
+                        allowClear
+                     />
+                  </div>
+                  <span className={styles.shownCount}>{filtered.length} 项</span>
+               </div>
+
+               {/* Error banner */}
+               {state.globalError && (
+                  <Alert
+                     type="error"
+                     message={state.globalError}
+                     closable
+                     style={{ marginTop: 12 }}
                   />
                )}
-            </Spin>
-         </div>
+
+               {/* Content area */}
+               <div className={styles.contentArea}>
+                  <Spin spinning={state.loading && !state.report}>
+                     {filtered.length === 0 ? (
+                        <div className={styles.emptyContainer}>
+                           {!connected && !state.report ? (
+                              <Empty description="未连接到 Gateway" />
+                           ) : (
+                              <Empty description="未找到技能" />
+                           )}
+                        </div>
+                     ) : (
+                        <Collapse
+                           className={styles.collapseWrapper}
+                           defaultActiveKey={defaultActiveKeys}
+                           items={collapseItems}
+                        />
+                     )}
+                  </Spin>
+               </div>
+            </>
+         )}
       </div>
    )
 }

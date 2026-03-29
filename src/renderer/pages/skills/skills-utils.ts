@@ -97,3 +97,8 @@ export function clampText(text: string, max: number): string {
    if (text.length <= max) return text
    return text.slice(0, max) + '...'
 }
+
+/** 从本地技能列表构建已安装技能名称集合 */
+export function buildInstalledNamesSet(skills: SkillStatusEntry[]): Set<string> {
+   return new Set(skills.map((s) => s.name))
+}

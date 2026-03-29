@@ -35,5 +35,9 @@ export function createMockClawAPI(): ClawAPI {
       speech: {
          transcribe: vi.fn().mockResolvedValue({ ok: true, text: '' }),
       },
+      clawhub: {
+         listSkills: vi.fn().mockResolvedValue({ ok: true, data: { items: [] } }),
+         searchPackages: vi.fn().mockResolvedValue({ ok: true, data: { results: [] } }),
+      },
    }
 }

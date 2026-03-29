@@ -23,6 +23,8 @@ const IPC = {
    GATEWAY_MARK_ONBOARDING_COMPLETE: 'gateway:mark-onboarding-complete',
    APP_GET_INFO: 'app:get-info',
    SPEECH_TRANSCRIBE: 'speech:transcribe',
+   CLAWHUB_LIST_SKILLS: 'clawhub:list-skills',
+   CLAWHUB_SEARCH_PACKAGES: 'clawhub:search-packages',
 } as const
 
 const EVENT_CHANNELS = [
@@ -195,6 +197,25 @@ contextBridge.exposeInMainWorld('clawAPI', {
          }) as Promise<{
             ok: boolean
             text?: string
+            error?: string
+         }>
+      },
+   },
+
+   clawhub: {
+      listSkills: (params: { limit?: number; cursor?: string }) => {
+         log.log('clawhub.listSkills() called, limit=%d', params.limit ?? 20)
+         return ipcRenderer.invoke(IPC.CLAWHUB_LIST_SKILLS, params) as Promise<{
+            ok: boolean
+            data?: unknown
+            error?: string
+         }>
+      },
+      searchPackages: (params: { query: string; limit?: number }) => {
+         log.log('clawhub.searchPackages() called, q=%s', params.query)
+         return ipcRenderer.invoke(IPC.CLAWHUB_SEARCH_PACKAGES, params) as Promise<{
+            ok: boolean
+            data?: unknown
             error?: string
          }>
       },

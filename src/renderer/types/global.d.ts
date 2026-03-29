@@ -56,6 +56,16 @@ export interface ClawAPI {
          mimeType: string,
       ): Promise<{ ok: boolean; text?: string; error?: string }>
    }
+   clawhub: {
+      listSkills(params: {
+         limit?: number
+         cursor?: string
+      }): Promise<{ ok: boolean; data?: unknown; error?: string }>
+      searchPackages(params: {
+         query: string
+         limit?: number
+      }): Promise<{ ok: boolean; data?: unknown; error?: string }>
+   }
 }
 
 declare global {

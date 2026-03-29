@@ -26,6 +26,10 @@ export const IPC = {
    // 语音转写 (invoke/handle)
    SPEECH_TRANSCRIBE: 'speech:transcribe',
 
+   // ClawHub API 代理 (invoke/handle)
+   CLAWHUB_LIST_SKILLS: 'clawhub:list-skills',
+   CLAWHUB_SEARCH_PACKAGES: 'clawhub:search-packages',
+
    // 主进程 → 渲染进程 (send/on)
    GATEWAY_EVENT: 'gateway:event',
    GATEWAY_STATE_CHANGED: 'gateway:state-changed',
