@@ -203,8 +203,8 @@ contextBridge.exposeInMainWorld('clawAPI', {
    },
 
    clawhub: {
-      listSkills: (params: { limit?: number; cursor?: string }) => {
-         log.log('clawhub.listSkills() called, limit=%d', params.limit ?? 20)
+      listSkills: (params: { limit?: number; cursor?: string; sort?: string }) => {
+         log.log('clawhub.listSkills() called, limit=%d sort=%s', params.limit ?? 20, params.sort ?? '')
          return ipcRenderer.invoke(IPC.CLAWHUB_LIST_SKILLS, params) as Promise<{
             ok: boolean
             data?: unknown

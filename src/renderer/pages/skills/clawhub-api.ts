@@ -31,19 +31,8 @@ export interface ClawHubPackageSearchResult {
    package: ClawHubPackageListItem
 }
 
-export interface ClawHubSkillListItem {
-   slug: string
-   displayName: string
-   summary?: string
-   tags?: Record<string, string>
-   latestVersion?: { version: string; createdAt: number; changelog?: string } | null
-   metadata?: { os?: string[] | null; systems?: string[] | null } | null
-   createdAt: number
-   updatedAt: number
-}
-
-export interface ClawHubSkillListResponse {
-   items: ClawHubSkillListItem[]
+export interface ClawHubPackageListResponse {
+   items: ClawHubPackageListItem[]
    nextCursor?: string | null
 }
 
@@ -79,33 +68,25 @@ export async function searchPackages(
    return data?.results ?? []
 }
 
-/** 列表浏览 ClawHub 技能 */
+/** 列表浏览 ClawHub 技能包（使用 /api/v1/packages?family=skill） */
 export async function listSkills(
    limit = DEFAULT_LIMIT,
    cursor?: string,
-): Promise<ClawHubSkillListResponse> {
+): Promise<ClawHubPackageListResponse> {
    log.log('listSkills: limit=%d cursor=%s', limit, cursor ?? '(none)')
-   const result = await window.clawAPI.clawhub.listSkills({ limit, cursor: cursor ?? '' })
+   const result = await window.clawAPI.clawhub.listSkills({
+      limit,
+      cursor: cursor ?? '',
+   })
    if (!result.ok) {
       throw new Error(result.error ?? 'ClawHub 列表请求失败')
    }
-   return (result.data as ClawHubSkillListResponse) ?? { items: [] }
+   return (result.data as ClawHubPackageListResponse) ?? { items: [] }
 }
 
 // ── 类型转换 ──
 
-/** 列表项 → StoreSkill */
-export function toStoreSkill(item: ClawHubSkillListItem): StoreSkill {
-   return {
-      slug: item.slug,
-      displayName: item.displayName,
-      summary: item.summary ?? '',
-      latestVersion: item.latestVersion?.version ?? null,
-      updatedAt: item.updatedAt,
-   }
-}
-
-/** 搜索结果包 → StoreSkill */
+/** 包列表项 → StoreSkill */
 export function packageToStoreSkill(item: ClawHubPackageListItem): StoreSkill {
    return {
       slug: item.name,

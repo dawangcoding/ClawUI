@@ -81,19 +81,9 @@ export default function SkillsPage() {
                   onChange={(v) => setActiveTab(v as 'installed' | 'store')}
                   options={[
                      { label: '已安装', value: 'installed' },
-                     { label: '技能商店', value: 'store' },
+                     { label: 'ClawHub', value: 'store' },
                   ]}
                />
-               {activeTab === 'installed' && (
-                  <Button
-                     icon={<ReloadOutlined />}
-                     onClick={state.loadSkills}
-                     loading={state.loading}
-                     disabled={!connected}
-                  >
-                     刷新
-                  </Button>
-               )}
             </div>
          </div>
 
@@ -148,6 +138,14 @@ export default function SkillsPage() {
                      />
                   </div>
                   <span className={styles.shownCount}>{filtered.length} 项</span>
+                  <Button
+                     icon={<ReloadOutlined />}
+                     onClick={state.loadSkills}
+                     loading={state.loading}
+                     disabled={!connected}
+                  >
+                     刷新
+                  </Button>
                </div>
 
                {/* Error banner */}

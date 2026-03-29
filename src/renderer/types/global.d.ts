@@ -60,6 +60,7 @@ export interface ClawAPI {
       listSkills(params: {
          limit?: number
          cursor?: string
+         sort?: string
       }): Promise<{ ok: boolean; data?: unknown; error?: string }>
       searchPackages(params: {
          query: string

@@ -47,12 +47,13 @@ async function clawhubFetch(url: string): Promise<unknown> {
 export function registerClawHubHandlers(): void {
    ipcMain.handle(
       IPC.CLAWHUB_LIST_SKILLS,
-      async (_event, params: { limit?: number; cursor?: string }) => {
+      async (_event, params: { limit?: number; cursor?: string; sort?: string }) => {
          try {
-            const searchParams = new URLSearchParams()
+            const searchParams = new URLSearchParams({ family: 'skill' })
             if (params?.limit) searchParams.set('limit', String(params.limit))
             if (params?.cursor) searchParams.set('cursor', params.cursor)
-            const url = `${CLAWHUB_BASE}/api/v1/skills?${searchParams}`
+            if (params?.sort) searchParams.set('sort', params.sort)
+            const url = `${CLAWHUB_BASE}/api/v1/packages?${searchParams}`
             log.log('listSkills: %s', url)
             const data = await clawhubFetch(url)
             return { ok: true, data }

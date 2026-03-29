@@ -2,12 +2,7 @@ import { useState, useCallback, useEffect, useRef } from 'react'
 import { useGateway } from '../../contexts/GatewayContext'
 import { RPC } from '../../../shared/types/gateway-rpc'
 import type { SkillStatusReport } from '../../../shared/types/gateway-protocol'
-import {
-   listSkills,
-   searchPackages,
-   toStoreSkill,
-   packageToStoreSkill,
-} from './clawhub-api'
+import { listSkills, searchPackages, packageToStoreSkill } from './clawhub-api'
 import type { StoreSkill } from './clawhub-api'
 import { createLogger } from '../../../shared/logger'
 
@@ -79,32 +74,29 @@ export function useStoreState(): StoreState {
 
    // ── 浏览模式加载 ──
 
-   const loadBrowse = useCallback(
-      async (cursor?: string) => {
-         setLoading(true)
-         setError(null)
-         try {
-            const resp = await listSkills(PAGE_SIZE, cursor)
-            if (!mountedRef.current) return
-            const newSkills = resp.items.map(toStoreSkill)
-            if (cursor) {
-               setSkills((prev) => [...prev, ...newSkills])
-            } else {
-               setSkills(newSkills)
-            }
-            setNextCursor(resp.nextCursor ?? null)
-            setHasMore(Boolean(resp.nextCursor))
-         } catch (err) {
-            if (!mountedRef.current) return
-            const msg = getErrorMessage(err)
-            log.error('loadBrowse error:', msg)
-            setError(msg)
-         } finally {
-            if (mountedRef.current) setLoading(false)
+   const loadBrowse = useCallback(async (cursor?: string) => {
+      setLoading(true)
+      setError(null)
+      try {
+         const resp = await listSkills(PAGE_SIZE, cursor)
+         if (!mountedRef.current) return
+         const newSkills = resp.items.map(packageToStoreSkill)
+         if (cursor) {
+            setSkills((prev) => [...prev, ...newSkills])
+         } else {
+            setSkills(newSkills)
          }
-      },
-      [],
-   )
+         setNextCursor(resp.nextCursor ?? null)
+         setHasMore(Boolean(resp.nextCursor))
+      } catch (err) {
+         if (!mountedRef.current) return
+         const msg = getErrorMessage(err)
+         log.error('loadBrowse error:', msg)
+         setError(msg)
+      } finally {
+         if (mountedRef.current) setLoading(false)
+      }
+   }, [])
 
    // ── 搜索模式加载 ──
 
