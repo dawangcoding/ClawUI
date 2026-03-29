@@ -248,6 +248,19 @@ export class GatewayProcessManager {
          // 内置模式下 Gateway 生命周期由 ClawUI ProcessManager 管理，无需文件监控。
          gw.reload = { mode: 'off' }
          config.gateway = gw
+         // 设置 verbose 为 full，使 WebSocket 工具事件携带完整 result 数据。
+         // 本地桌面应用无带宽顾虑，这样工具调用卡片可以实时显示执行结果。
+         const agents =
+            typeof config.agents === 'object' && config.agents !== null
+               ? (config.agents as Record<string, unknown>)
+               : {}
+         const defaults =
+            typeof agents.defaults === 'object' && agents.defaults !== null
+               ? (agents.defaults as Record<string, unknown>)
+               : {}
+         defaults.verboseDefault = 'full'
+         agents.defaults = defaults
+         config.agents = agents
          writeFileSync(configPath, JSON.stringify(config, null, 2))
 
          log.log(
