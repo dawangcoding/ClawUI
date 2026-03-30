@@ -6,8 +6,26 @@ const log = createLogger('ClawHubHandlers')
 
 const CLAWHUB_BASE = 'https://clawhub.ai'
 const FETCH_TIMEOUT_MS = 15_000
+const CACHE_TTL_MS = 120_000 // 2 分钟
+
+const responseCache = new Map<string, { data: unknown; ts: number }>()
+
+function getCached(url: string): unknown | undefined {
+   const entry = responseCache.get(url)
+   if (!entry) return undefined
+   if (Date.now() - entry.ts > CACHE_TTL_MS) {
+      responseCache.delete(url)
+      return undefined
+   }
+   return entry.data
+}
 
 async function clawhubFetch(url: string): Promise<unknown> {
+   const cached = getCached(url)
+   if (cached !== undefined) {
+      log.log('cache hit: %s', url)
+      return cached
+   }
    return new Promise((resolve, reject) => {
       const request = net.request(url)
       let body = ''
@@ -28,7 +46,9 @@ async function clawhubFetch(url: string): Promise<unknown> {
          response.on('end', () => {
             clearTimeout(timer)
             try {
-               resolve(JSON.parse(body))
+               const parsed = JSON.parse(body)
+               responseCache.set(url, { data: parsed, ts: Date.now() })
+               resolve(parsed)
             } catch {
                reject(new Error('ClawHub API 返回了无效的 JSON'))
             }

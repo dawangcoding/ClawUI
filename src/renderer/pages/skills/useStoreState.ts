@@ -165,24 +165,50 @@ export function useStoreState(): StoreState {
          if (!connected) return
          setInstallingSlug(slug)
          setInstallMessage(null)
+
+         const MAX_RETRIES = 3
+         const RETRY_BASE_MS = 5000
+
          try {
-            const result = await rpc<{ message?: string; ok?: boolean }>(RPC.SKILLS_INSTALL, {
-               source: 'clawhub',
-               slug,
-            })
-            if (mountedRef.current) {
-               setInstallMessage({
-                  slug,
-                  kind: 'success',
-                  text: result?.message ?? '安装完成',
-               })
-               await refreshInstalledSlugs()
-            }
-         } catch (err) {
-            if (mountedRef.current) {
-               const msg = getErrorMessage(err)
-               log.error('installSkill error:', msg)
-               setInstallMessage({ slug, kind: 'error', text: msg })
+            for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
+               try {
+                  const result = await rpc<{ message?: string; ok?: boolean }>(RPC.SKILLS_INSTALL, {
+                     source: 'clawhub',
+                     slug,
+                  })
+                  if (mountedRef.current) {
+                     setInstallMessage({
+                        slug,
+                        kind: 'success',
+                        text: result?.message ?? '安装完成',
+                     })
+                     await refreshInstalledSlugs()
+                  }
+                  return
+               } catch (err) {
+                  if (!mountedRef.current) return
+                  const msg = getErrorMessage(err)
+                  const isRateLimit = /429|rate.?limit/i.test(msg)
+                  if (isRateLimit && attempt < MAX_RETRIES) {
+                     const delayMs = RETRY_BASE_MS * Math.pow(2, attempt)
+                     log.log(
+                        'installSkill rate limited, retrying in %dms (attempt %d)',
+                        delayMs,
+                        attempt + 1,
+                     )
+                     setInstallMessage({
+                        slug,
+                        kind: 'error',
+                        text: `请求限频，${Math.round(delayMs / 1000)}s 后自动重试...`,
+                     })
+                     await new Promise((r) => setTimeout(r, delayMs))
+                     if (!mountedRef.current) return
+                     continue
+                  }
+                  log.error('installSkill error:', msg)
+                  setInstallMessage({ slug, kind: 'error', text: msg })
+                  return
+               }
             }
          } finally {
             if (mountedRef.current) setInstallingSlug(null)
